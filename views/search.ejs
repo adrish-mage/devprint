@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search</title>
+</head>
+<body>
+    <h1>Enter your Github Details</h1>
+    <form action="/card" method="GET">
+        <input name = "username" placeholder="Enter your github username"/> 
+        <button>Generate your Card</button>
+    </form>
+    <% if (error) { %> 
+        <p><%= error %></p> 
+    <% } %>
+</body>
+</html>

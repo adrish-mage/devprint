@@ -23,13 +23,20 @@ app.listen(port,()=>{
 })
 
 
-// homepage
+// home-page
 
 app.get("/",(req,res) => {
     const authInfo = req.oidc;
     if (authInfo.isAuthenticated()){
         res.redirect('/search');
     }else{
-        res.render("home")
+        res.render('home')
     }
 })
+
+//search-github-page
+
+app.get("/search",requiresAuth(),(req,res)=>{
+    res.render('search', {error : null});
+})
+
