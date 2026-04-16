@@ -53,15 +53,54 @@ app.get("/card",requiresAuth(),(req,res)=>{
     async function getUser(){
         try{
             const info = await axios.get(profileURL);
-            console.log(info.data.login);
+            let avatar = info.data.avatar_url;
+            let bio = info.data.bio;
+            let public_repo_count = info.data.public_repos;
+            let followers = info.data.followers;
+            let following = info.data.following;
+
+            const repoInfo = await axios.get(repoURL);
+            const repos = repoInfo.data;
+            const langCount = {};
+
+            for (repo of repos){
+                let lang = repo.language;
+
+                if(lang){
+                    if(langCount[lang]){
+                        langCount[lang]++;
+                    }else{
+                        langCount[lang] = 1;
+                    }
+                }
+            }
+            
+            const topLangs = Object.entries(langCount).sort((a,b) => b[1]-a[1]).slice(0,3);
+            topLangs.forEach(([lang, count]) => {
+                console.log(`${lang}: ${count}`)
+            });
+            res.render("card", {
+                google: req.oidc.user,
+                github: {
+                    avatar,
+                    bio,
+                    public_repo_count,
+                    followers,
+                    following,
+                    topLangs
+                }
+            });
+            console.log(topLangs);
+
         }catch(err){
+            res.render('search',{ error: null }, {err : "User Not Found"});
             console.log(err.message);
             console.log("error!!!");
         }
     }
     getUser();
-    res.send("check terminal for json");
-    console.log(req.query);
+      
+    
 })
 // shortlist the top languages
 // display info

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card</title>
+    <link rel="stylesheet" href="/style.css">
+
+</head>
+<body>
+    <%=google.name%>
+    <%=github.followers%>
+    <%=github.following%>
+    <%=github.public_repo_count%>
+    <%=github.bio%>
+    <img src="<%= google.picture %>" referrerpolicy="no-referrer" />
+
+   <% github.topLangs.forEach(([lang]) => { %>
+        <span><%= lang %></span>
+    <% }) %>
+    <a href="/logout">Logout</a>
+    <a href="/search">Generate Another Card</a>
+    
+</body>
+</html>
