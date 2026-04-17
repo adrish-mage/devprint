@@ -1,19 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search</title>
-    <link rel="stylesheet" href="/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DEVPRINT — Search</title>
+  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <h1>Enter your Github Details</h1>
+  <div class="wordmark">devprint</div>
+  <h1>Search</h1>
+  <h2>Enter a GitHub username to generate a card.</h2>
+  <div class="card">
     <form action="/card" method="GET">
-        <input name = "username" placeholder="Enter your github username"/> 
-        <button>Generate your Card</button>
+      <div class="input-wrap">
+        <input
+          name="username"
+          type="text"
+          placeholder="github username"
+          autocomplete="off"
+          autofocus
+        />
+        <button type="submit" class="btn">Generate →</button>
+      </div>
     </form>
-    <% if (error) { %> 
-        <p><%= error %></p> 
+    <% if (error) { %>
+      <div class="error-msg">⚠ <%= error %></div>
     <% } %>
+  </div>
 </body>
 </html>

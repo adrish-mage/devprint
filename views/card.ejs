@@ -1,25 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Card</title>
-    <link rel="stylesheet" href="/style.css">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DEVPRINT — <%= google.name %></title>
+  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <%=google.name%>
-    <%=github.followers%>
-    <%=github.following%>
-    <%=github.public_repo_count%>
-    <%=github.bio%>
-    <img src="<%= google.picture %>" referrerpolicy="no-referrer" />
+  <div class="wordmark">devprint</div>
 
-   <% github.topLangs.forEach(([lang]) => { %>
-        <span><%= lang %></span>
+  <div class="dev-card">
+
+    <!-- Header -->
+    <div class="card-header">
+      <img class="avatar" src="<%= google.picture %>" referrerpolicy="no-referrer" alt="<%= google.name %>'s avatar" />
+      <div>
+        <div class="card-name"><%= google.name %></div>
+        <% if (github.login) { %>
+          <div style="font-family:var(--mono); font-size:0.72rem; color:var(--accent); margin-top:2px; opacity:0.7;">@<%= github.login %></div>
+        <% } %>
+        <% if (github.location) { %>
+          <div style="font-family:var(--sans); font-size:0.72rem; color:var(--muted); margin-top:2px;">📍 <%= github.location %></div>
+        <% } %>
+        <div class="card-bio"><%= github.bio %></div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-box">
+        <div class="stat-val"><%= github.public_repo_count %></div>
+        <div class="stat-lbl">Repos</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val"><%= github.followers %></div>
+        <div class="stat-lbl">Followers</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val"><%= github.following %></div>
+        <div class="stat-lbl">Following</div>
+      </div>
+    </div>
+
+    <!-- Languages -->
+    <% if (github.topLangs && github.topLangs.length > 0) { %>
+    <div class="section-label">Top Languages</div>
+    <% github.topLangs.forEach(([lang, pct]) => { %>
+      <div class="lang-row">
+        <span class="lang-name"><%= lang %></span>
+        <div class="lang-track">
+          <div class="lang-fill" style="width: <%= pct || 50 %>%;"></div>
+        </div>
+      </div>
     <% }) %>
-    <a href="/logout">Logout</a>
-    <a href="/search">Generate Another Card</a>
-    
+    <% } %>
+
+    <!-- Footer -->
+    <div class="card-footer">
+      <span class="badge">made with <span>devprint</span></span>
+      <div style="display:flex; gap:10px;">
+        <a href="/search" class="btn-ghost">↺ Another</a>
+        <a href="/logout" class="btn-ghost">Logout</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Animate language bars on load -->
+  <script>
+    document.querySelectorAll('.lang-fill').forEach(el => {
+      const w = el.style.width;
+      el.style.width = '0';
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => { el.style.width = w; });
+      });
+    });
+  </script>
 </body>
 </html>

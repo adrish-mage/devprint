@@ -1,15 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-    <link rel="stylesheet" href="/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DEVPRINT — Your GitHub, decoded.</title>
+  <link rel="stylesheet" href="/style.css">
 </head>
-<body>
-    <h1>DEVPRINT</h1>
-    <h2>Home Page</h2>
-    <p>Welcome to devprint</p>
-    <a href="/login">Login with Google</a>
+<body class="home">
+
+  <!-- TOP BAR -->
+  <header class="top-bar">
+    <span class="top-bar-left">VOL. I · GITHUB INTELLIGENCE · OPEN SOURCE EDITION</span>
+    <span class="top-bar-right">2025</span>
+  </header>
+
+  <!-- MAIN GRID -->
+  <main class="home-grid">
+
+    <!-- LEFT: headline + CTA -->
+    <section class="home-left">
+      <h1 class="headline">
+        Your<br>
+        GitHub,<br>
+        <span class="outline">decoded.</span>
+      </h1>
+
+      <div class="home-cta">
+        <a href="/login" class="btn">Start knowing the developer</a>
+        <a href="/card?username=adrish-dev" class="btn-ghost">view sample →</a>
+      </div>
+    </section>
+
+    <!-- RIGHT: feature list -->
+    <aside class="home-right">
+      <p class="features-title">What you'll get —</p>
+      <ul class="features-list">
+        <li>OAuth via Google</li>
+        <li>Live GitHub API stats</li>
+        <li>Language breakdown</li>
+        <li>Shareable developer card</li>
+        <li>Deploy-ready stack</li>
+      </ul>
+      <p class="features-stack">→ built on Node · Express · EJS</p>
+    </aside>
+
+    <!-- SAMPLE CARD PREVIEW -->
+    <section class="sample-preview">
+      <div class="sample-label">SAMPLE CARD</div>
+      <div class="sample-inner">
+
+        <!-- Left: avatar + info -->
+        <div class="sample-left">
+          <div class="sample-avatar">A</div>
+          <div class="sample-info">
+            <div class="sample-name">Adrish</div>
+            <div class="sample-school">CALCUTTA UNIVERSITY · IT</div>
+            <div class="sample-bio">building toward Microsoft &amp; GSoC</div>
+            <div class="sample-stats">
+              <div class="sample-stat">
+                <span class="sval">12</span>
+                <span class="slbl">REPOSITORIES</span>
+              </div>
+              <div class="sample-stat">
+                <span class="sval">48</span>
+                <span class="slbl">FOLLOWERS</span>
+              </div>
+              <div class="sample-stat">
+                <span class="sval">23</span>
+                <span class="slbl">STARS</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: languages -->
+        <div class="sample-langs">
+          <div class="section-label">LANGUAGES</div>
+          <div class="lang-row">
+            <span class="lang-name">C++</span>
+            <div class="lang-track"><div class="lang-fill" style="width:72%"></div></div>
+          </div>
+          <div class="lang-row">
+            <span class="lang-name">JavaScript</span>
+            <div class="lang-track"><div class="lang-fill" style="width:55%"></div></div>
+          </div>
+          <div class="lang-row">
+            <span class="lang-name">EJS</span>
+            <div class="lang-track"><div class="lang-fill" style="width:30%"></div></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="home-footer">
+    <span>DEVPRINT — ALL RIGHTS RESERVED</span>
+    <span>devprint.app</span>
+  </footer>
+
+  <!-- Scroll indicator -->
+  <div class="scroll-indicator">↓</div>
+
 </body>
 </html>
