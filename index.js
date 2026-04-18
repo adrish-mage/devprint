@@ -99,10 +99,9 @@ app.get("/card",requiresAuth(),(req,res)=>{
             });
             console.log(topLangs);
 
-        }catch(err){
-            res.render('search', { error: "User Not Found" });
+        }catch (err) {
             console.log(err.message);
-            console.log("error!!!");
+            res.render('search', { error: "User Not Found" });
         }
     }
     getUser();
