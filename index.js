@@ -4,7 +4,7 @@ const axios = require("axios");
 const {auth, requiresAuth} = require("express-openid-connect");
 const { profile } = require("console");
 require("dotenv").config();
-const port = 3000;
+const port = process.env.PORT || 3000;
 const app = express();
 
 app.use(auth({
@@ -100,7 +100,7 @@ app.get("/card",requiresAuth(),(req,res)=>{
             console.log(topLangs);
 
         }catch(err){
-            res.render('search',{ error: null }, {err : "User Not Found"});
+            res.render('search', { error: "User Not Found" });
             console.log(err.message);
             console.log("error!!!");
         }
