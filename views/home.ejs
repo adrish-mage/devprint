@@ -1,108 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DEVPRINT — Your GitHub, decoded.</title>
-  <link rel="stylesheet" href="/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevPrint — Your GitHub, Decoded</title>
+    <link rel="stylesheet" href="/style.css">
 </head>
-<body class="home">
+<body>
 
-  <!-- TOP BAR -->
-  <header class="top-bar">
-    <span class="top-bar-left">VOL. I · GITHUB INTELLIGENCE · OPEN SOURCE EDITION</span>
-    <span class="top-bar-right">2025</span>
-  </header>
+<!-- NAV -->
+<nav class="nav">
+    <a href="/" class="nav-logo">DEV<span>PRINT</span></a>
+    <span class="nav-tagline">the developer's mirror</span>
+    <div class="nav-actions">
+        <a href="/login" class="btn btn-accent">Login with Google</a>
+    </div>
+</nav>
 
-  <!-- MAIN GRID -->
-  <main class="home-grid">
+<div class="home-wrap">
 
-    <!-- LEFT: headline + CTA -->
-    <section class="home-left">
-      <h1 class="headline">
-        Your<br>
-        GitHub,<br>
-        <span class="outline">decoded.</span>
-      </h1>
-
-      <div class="home-cta">
-        <a href="/login" class="btn">Start knowing the developer</a>
-        <a href="/card?username=adrish-dev" class="btn-ghost">view sample →</a>
-      </div>
+    <!-- HERO — centered exactly like reference screenshot -->
+    <section class="hero">
+        <div class="hero-eyebrow">// github intelligence tool</div>
+        <h1 class="hero-h1">Your GitHub,</h1>
+        <span class="hero-h1-outline">decoded.</span>
+        <p class="hero-sub">Explore, analyze, and understand GitHub profiles in seconds.</p>
+        <div class="hero-cta">
+            <a href="/login" class="btn btn-primary">Start knowing the developer</a>
+            <a href="#features" class="btn btn-ghost">see how it works</a>
+        </div>
     </section>
 
-    <!-- RIGHT: feature list -->
-    <aside class="home-right">
-      <p class="features-title">What you'll get —</p>
-      <ul class="features-list">
-        <li>OAuth via Google</li>
-        <li>Live GitHub API stats</li>
-        <li>Language breakdown</li>
-        <li>Shareable developer card</li>
-        <li>Deploy-ready stack</li>
-      </ul>
-      <p class="features-stack">→ built on Node · Express · EJS</p>
-    </aside>
-
-    <!-- SAMPLE CARD PREVIEW -->
-    <section class="sample-preview">
-      <div class="sample-label">SAMPLE CARD</div>
-      <div class="sample-inner">
-
-        <!-- Left: avatar + info -->
-        <div class="sample-left">
-          <div class="sample-avatar">A</div>
-          <div class="sample-info">
-            <div class="sample-name">Adrish</div>
-            <div class="sample-school">CALCUTTA UNIVERSITY · IT</div>
-            <div class="sample-bio">building toward Microsoft &amp; GSoC</div>
-            <div class="sample-stats">
-              <div class="sample-stat">
-                <span class="sval">12</span>
-                <span class="slbl">REPOSITORIES</span>
-              </div>
-              <div class="sample-stat">
-                <span class="sval">48</span>
-                <span class="slbl">FOLLOWERS</span>
-              </div>
-              <div class="sample-stat">
-                <span class="sval">23</span>
-                <span class="slbl">STARS</span>
-              </div>
-            </div>
-          </div>
+    <!-- FEATURE STRIP -->
+    <section class="feature-strip" id="features">
+        <div class="feature-item">
+            <div class="feature-num">01</div>
+            <div class="feature-title">OAuth login</div>
+            <p class="feature-desc">Sign in with Google. Secure, no passwords stored.</p>
         </div>
-
-        <!-- Right: languages -->
-        <div class="sample-langs">
-          <div class="section-label">LANGUAGES</div>
-          <div class="lang-row">
-            <span class="lang-name">C++</span>
-            <div class="lang-track"><div class="lang-fill" style="width:72%"></div></div>
-          </div>
-          <div class="lang-row">
-            <span class="lang-name">JavaScript</span>
-            <div class="lang-track"><div class="lang-fill" style="width:55%"></div></div>
-          </div>
-          <div class="lang-row">
-            <span class="lang-name">EJS</span>
-            <div class="lang-track"><div class="lang-fill" style="width:30%"></div></div>
-          </div>
+        <div class="feature-item">
+            <div class="feature-num">02</div>
+            <div class="feature-title">Live GitHub data</div>
+            <p class="feature-desc">Stats, languages, and repos pulled live from the GitHub API.</p>
         </div>
-
-      </div>
+        <div class="feature-item">
+            <div class="feature-num">03</div>
+            <div class="feature-title">Shareable card</div>
+            <p class="feature-desc">One URL. Embed it anywhere. Export it as a card.</p>
+        </div>
     </section>
 
-  </main>
+    <!-- BOTTOM STRIP -->
+    <div class="issue-strip">
+        <span>DEVPRINT · NODE + EXPRESS + EJS + GITHUB API</span>
+        <span>2025</span>
+    </div>
 
-  <!-- FOOTER -->
-  <footer class="home-footer">
-    <span>DEVPRINT — ALL RIGHTS RESERVED</span>
-    <span>devprint.app</span>
-  </footer>
-
-  <!-- Scroll indicator -->
-  <div class="scroll-indicator">↓</div>
+</div>
 
 </body>
 </html>

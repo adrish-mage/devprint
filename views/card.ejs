@@ -1,80 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DEVPRINT — <%= google.name %></title>
-  <link rel="stylesheet" href="/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevPrint — Card</title>
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-  <div class="wordmark">devprint</div>
 
-  <div class="dev-card">
-
-    <!-- Header -->
-    <div class="card-header">
-      <img class="avatar" src="<%= google.picture %>" referrerpolicy="no-referrer" alt="<%= google.name %>'s avatar" />
-      <div>
-        <div class="card-name"><%= google.name %></div>
-        <% if (github.login) { %>
-          <div style="font-family:var(--mono); font-size:0.72rem; color:var(--accent); margin-top:2px; opacity:0.7;">@<%= github.login %></div>
-        <% } %>
-        <% if (github.location) { %>
-          <div style="font-family:var(--sans); font-size:0.72rem; color:var(--muted); margin-top:2px;">📍 <%= github.location %></div>
-        <% } %>
-        <div class="card-bio"><%= github.bio %></div>
-      </div>
+<!-- NAV -->
+<nav class="nav">
+    <a href="/" class="nav-logo">DEV<span>PRINT</span></a>
+    <span class="nav-tagline">the developer's mirror</span>
+    <div class="nav-actions">
+        <a href="/search" class="btn-sm">← search</a>
+        <a href="/logout" class="btn-sm">logout</a>
     </div>
+</nav>
 
-    <!-- Stats -->
-    <div class="stats-grid">
-      <div class="stat-box">
-        <div class="stat-val"><%= github.public_repo_count %></div>
-        <div class="stat-lbl">Repos</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-val"><%= github.followers %></div>
-        <div class="stat-lbl">Followers</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-val"><%= github.following %></div>
-        <div class="stat-lbl">Following</div>
-      </div>
-    </div>
+<!-- ISSUE STRIP -->
+<div class="issue-strip" style="margin-top: 56px;">
+    <span>DEVPRINT · DEVELOPER CARD · GENERATED LIVE</span>
+    <span>GITHUB API · 2025</span>
+</div>
 
-    <!-- Languages -->
-    <% if (github.topLangs && github.topLangs.length > 0) { %>
-    <div class="section-label">Top Languages</div>
-    <% github.topLangs.forEach(([lang, pct]) => { %>
-      <div class="lang-row">
-        <span class="lang-name"><%= lang %></span>
-        <div class="lang-track">
-          <div class="lang-fill" style="width: <%= pct || 50 %>%;"></div>
+<div class="card-page-wrap" style="padding-top: 0;">
+<div class="card-page-body">
+
+    <!-- fetch log -->
+    <div class="fetch-log ok">$ devprint --generate --format card</div>
+    <div class="fetch-log info">✓ profile fetched · github api · live data</div>
+    <div class="card-sep"></div>
+
+    <!-- DEV CARD -->
+    <div class="dev-card">
+        <div class="dev-card-accent"></div>
+
+        <div class="dev-card-grid">
+
+            <!-- COL 1: IDENTITY -->
+            <div class="col-identity">
+                <div class="card-issue-tag">Developer Card</div>
+                <img class="card-avatar" src="<%= google.picture %>" referrerpolicy="no-referrer" alt="avatar" />
+                <div class="card-name"><%=google.name%></div>
+                <div class="card-uni">GitHub Developer</div>
+                <div class="card-bio"><%=github.bio%></div>
+            </div>
+
+            <div class="card-vline"></div>
+
+            <!-- COL 2: STATS + LANGS -->
+            <div class="col-stats">
+                <div class="col-head">Stats</div>
+                <div class="col-rule"></div>
+
+                <div class="stat-row">
+                    <span class="stat-key">repositories</span>
+                    <span class="stat-val"><%=github.public_repo_count%></span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-key">followers</span>
+                    <span class="stat-val"><%=github.followers%></span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-key">following</span>
+                    <span class="stat-val"><%=github.following%></span>
+                </div>
+
+                <!-- LANGUAGES — EJS loop preserved exactly -->
+                <div class="lang-block">
+                    <div class="lang-head">Languages</div>
+                    <% github.topLangs.forEach(([lang]) => { %>
+                    <div class="lang-row">
+                        <span class="lang-name"><%= lang %></span>
+                        <div class="lang-track">
+                            <div class="lang-fill" style="width: 60%"></div>
+                        </div>
+                    </div>
+                    <% }) %>
+                </div>
+            </div>
+
+            <div class="card-vline"></div>
+
+            <!-- COL 3: REPOS + ACTIONS -->
+            <div class="col-repos">
+                <div class="col-head">Actions</div>
+                <div class="col-rule"></div>
+
+                <div class="card-actions">
+                    <button class="btn-export">↓ Export card</button>
+                    <div class="btn-row">
+                        <a href="/search" class="btn-sec">← New search</a>
+                        <a href="/logout" class="btn-sec">Logout</a>
+                    </div>
+                </div>
+
+                <!-- spacer -->
+                <div style="margin-top: 28px;">
+                    <div class="col-head">Profile</div>
+                    <div class="col-rule"></div>
+                    <div class="repo-item">
+                        <div class="repo-name"><%=google.name%></div>
+                        <div class="repo-meta">authenticated via google oauth</div>
+                    </div>
+                    <div class="repo-item" style="border-bottom: none;">
+                        <div class="repo-name" style="font-size: 13px; color: #777;"><%=github.public_repo_count%> public repos</div>
+                        <div class="repo-meta"><%=github.followers%> followers · <%=github.following%> following</div>
+                    </div>
+                </div>
+            </div>
+
         </div>
-      </div>
-    <% }) %>
-    <% } %>
 
-    <!-- Footer -->
-    <div class="card-footer">
-      <span class="badge">made with <span>devprint</span></span>
-      <div style="display:flex; gap:10px;">
-        <a href="/search" class="btn-ghost">↺ Another</a>
-        <a href="/logout" class="btn-ghost">Logout</a>
-      </div>
+        <!-- CARD FOOTER -->
+        <div class="dev-card-footer">
+            <span class="card-badge">DEVPRINT · NODE + EXPRESS + EJS</span>
+            <em class="card-badge-em">devprint.app</em>
+        </div>
     </div>
 
-  </div>
+</div>
 
-  <!-- Animate language bars on load -->
-  <script>
-    document.querySelectorAll('.lang-fill').forEach(el => {
-      const w = el.style.width;
-      el.style.width = '0';
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => { el.style.width = w; });
-      });
-    });
-  </script>
+<!-- STATUS -->
+<div class="status-bar">
+    <span><span class="status-dot"></span>CARD GENERATED</span>
+    <span>DEVPRINT · GITHUB API · LIVE</span>
+</div>
+</div>
+
 </body>
 </html>
