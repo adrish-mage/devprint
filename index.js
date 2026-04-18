@@ -20,6 +20,13 @@ app.set('view engine', "ejs");
 app.set("views", path.join(__dirname,"/views"));
 app.use(express.static(path.join(__dirname,"public")));
 
+app.get('/healthz', (req, res) => {
+  res.status(200).json({
+    status: 'ok',
+    uptime: process.uptime(),
+    timestamp: new Date().toISOString()
+  });
+});
 app.listen(port,()=>{
     console.log(`app is listening on ${port}`);
 })
