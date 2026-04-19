@@ -2,7 +2,7 @@
 
 **Your GitHub identity, decoded.**
 
-[![Live](https://img.shields.io/badge/live-devprint.yourdomain.me-00e676?style=flat-square)](https://devprint.yourdomain.me)
+[![Live](https://img.shields.io/badge/live-devprint.yourdomain.me-00e676?style=flat-square)]((https://devprint.adrish.me/))
 [![Node.js](https://img.shields.io/badge/node-20.x-339933?style=flat-square&logo=node.js&logoColor=white)](https://nodejs.org)
 [![Express](https://img.shields.io/badge/express-4.x-000000?style=flat-square&logo=express)](https://expressjs.com)
 [![Auth0](https://img.shields.io/badge/auth0-oauth2-EB5424?style=flat-square&logo=auth0&logoColor=white)](https://auth0.com)
