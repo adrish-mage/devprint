@@ -53,7 +53,9 @@ app.get("/search",requiresAuth(),(req,res)=>{
 
 // recieve the username
 app.get("/card",requiresAuth(),(req,res)=>{
+
     const username = req.query.username;
+    console.log("USERNAME:", username);
     const profileURL = `https://api.github.com/users/${username}`;
     const repoURL = `https://api.github.com/users/${username}/repos`;
     
@@ -100,7 +102,9 @@ app.get("/card",requiresAuth(),(req,res)=>{
             console.log(topLangs);
 
         }catch (err) {
-            console.log(err.message);
+            console.log("ERROR TYPE:", err.name);
+            console.log("ERROR MESSAGE:", err.message);
+            console.log("FULL:", err);
             res.render('search', { error: "User Not Found" });
         }
     }
