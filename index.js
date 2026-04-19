@@ -65,8 +65,9 @@ app.get("/card",requiresAuth(),(req,res)=>{
     async function getUser(){
         try{
             const info = await axios.get(profileURL, { headers });
-            let avatar = info.data.avatar_url;
+            let avatar_url = info.data.avatar_url;
             let bio = info.data.bio;
+            let login = info.data.login;
             let public_repo_count = info.data.public_repos;
             let followers = info.data.followers;
             let following = info.data.following;
@@ -94,7 +95,8 @@ app.get("/card",requiresAuth(),(req,res)=>{
             res.render("card", {
                 google: req.oidc.user,
                 github: {
-                    avatar,
+                    login,
+                    avatar_url,
                     bio,
                     public_repo_count,
                     followers,

@@ -12,7 +12,7 @@
   --cream:     #e8e0d0;
   --cream-dim: #e8e0d015;
   --text:      #e8e4dc;
-  --muted:     #52525b;
+  --muted:     #767680;
   --dim:       #27272a;
   --serif:     'Playfair Display', Georgia, serif;
   --mono:      'DM Mono', 'Fira Code', monospace;
@@ -455,6 +455,7 @@ body {
 
 /* DEV CARD */
 .dev-card {
+  scale: 1.07;
   border: 1px solid var(--border2);
   background: var(--card);
   position: relative;
@@ -473,7 +474,7 @@ body {
 
 /* column 1: identity */
 .col-identity {
-  padding: 28px 28px;
+  padding: 20px 28px;
 }
 
 .card-issue-tag {
@@ -510,7 +511,7 @@ body {
 
 .card-uni {
   font-family: var(--mono);
-  font-size: 8px;
+  font-size: 12px;
   color: var(--muted);
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -623,7 +624,7 @@ body {
 
 .repo-name {
   font-family: var(--serif);
-  font-size: 15px;
+  font-size: 20px;
   font-weight: 700;
   color: #ccc;
   margin-bottom: 3px;

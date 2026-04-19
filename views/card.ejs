@@ -42,8 +42,8 @@
             <!-- COL 1: IDENTITY -->
             <div class="col-identity">
                 <div class="card-issue-tag">Developer Card</div>
-                <img class="card-avatar" src="<%= github.avatar %>" />
-                <div class="card-name"><%=google.name%></div>
+                <img class="card-avatar" src="<%= github.avatar_url %>" />
+                <div class="card-name"><%=github.name || github.login%></div>
                 <div class="card-uni">GitHub Developer</div>
                 <div class="card-bio"><%=github.bio%></div>
             </div>
@@ -68,7 +68,7 @@
                     <span class="stat-val"><%=github.following%></span>
                 </div>
 
-                <!-- LANGUAGES — EJS loop preserved exactly -->
+                <!-- LANGUAGES -->
                 <div class="lang-block">
                     <div class="lang-head">Languages</div>
                     <% github.topLangs.forEach(([lang]) => { %>
