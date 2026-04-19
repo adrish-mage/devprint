@@ -56,19 +56,22 @@ app.get("/card",requiresAuth(),(req,res)=>{
 
     const username = req.query.username;
     console.log("USERNAME:", username);
+    const headers = {
+        Authorization: `Bearer ${process.env.GITHUB_TOKEN}`
+    };
     const profileURL = `https://api.github.com/users/${username}`;
     const repoURL = `https://api.github.com/users/${username}/repos`;
     
     async function getUser(){
         try{
-            const info = await axios.get(profileURL);
+            const info = await axios.get(profileURL, { headers });
             let avatar = info.data.avatar_url;
             let bio = info.data.bio;
             let public_repo_count = info.data.public_repos;
             let followers = info.data.followers;
             let following = info.data.following;
 
-            const repoInfo = await axios.get(repoURL);
+            const repoInfo = await axios.get(repoURL,{ headers });
             const repos = repoInfo.data;
             const langCount = {};
 
