@@ -1,18 +1,24 @@
+<div align="center">
+
 # DevPrint
 
 **Your GitHub identity, decoded.**
 
-[![Live](https://img.shields.io/badge/live-devprint.adrish.me-00e676?style=flat-square)](https://devprint.adrish.me/)
-[![Node.js](https://img.shields.io/badge/node-20.x-339933?style=flat-square&logo=node.js&logoColor=white)](https://nodejs.org)
-[![Express](https://img.shields.io/badge/express-4.x-000000?style=flat-square&logo=express)](https://expressjs.com)
-[![Auth0](https://img.shields.io/badge/auth0-oauth2-EB5424?style=flat-square&logo=auth0&logoColor=white)](https://auth0.com)
+<br/>
+
+[![Live](https://img.shields.io/badge/live-devprint.adrish.me-00e676?style=for-the-badge)](https://devprint.adrish.me/)
+[![Node.js](https://img.shields.io/badge/node-20.x-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org)
+[![Express](https://img.shields.io/badge/express-4.x-000000?style=for-the-badge&logo=express)](https://expressjs.com)
+[![Auth0](https://img.shields.io/badge/auth0-oauth2-EB5424?style=for-the-badge&logo=auth0&logoColor=white)](https://auth0.com)
+
+<br/>
 
 ---
 
-![DevPrint preview](https://i.imgur.com/placeholder.png)
-> Replace with a real screenshot after deployment
+</div>
 
----
+**Devprint preview** 
+ <p align="center"> <a href="https://devprint.adrish.me"> <img src="./assets/devprint-1.png" width="800" alt="DevPrint"/> </a> </p> <p align="center"> <img src="./assets/devprint-2.png" width="800"/> </p> <p align="center"> <img src="./assets/devprint-3.png" width="800"/> </p>
 
 ## Overview
 
