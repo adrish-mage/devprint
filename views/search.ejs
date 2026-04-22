@@ -14,7 +14,7 @@
     <a href="/" class="nav-logo">DEV<span>PRINT</span></a>
     <span class="nav-tagline">the developer's mirror</span>
     <div class="nav-actions">
-        <span class="nav-user">logged in</span>
+        <a href="/card" class="btn-sm">← my card</a>
         <a href="/logout" class="btn-sm">logout</a>
     </div>
 </nav>
@@ -28,7 +28,6 @@
 <div class="page-wrap" style="padding-top: 0;">
     <div class="search-body">
 
-        <!-- LEFT: search form — EJS unchanged -->
         <div class="search-left">
             <div class="search-prompt">$ devprint --search</div>
             <div class="search-rule"></div>
@@ -39,12 +38,12 @@
             <form action="/card" method="GET">
                 <div class="input-field">
                     <span class="input-slash">/</span>
-                    <input name="username" placeholder="github username…" autocomplete="off" />
+                    <input name="username" placeholder="github username…" autocomplete="off" autofocus />
                 </div>
                 <div class="input-hint">press enter or click generate</div>
                 <div class="search-buttons">
                     <button type="submit" class="btn btn-primary">Generate card →</button>
-                    <button type="button" class="btn btn-ghost" onclick="history.back()">back</button>
+                    <a href="/card" class="btn btn-ghost">← my card</a>
                 </div>
             </form>
 
@@ -53,21 +52,19 @@
             <% } %>
         </div>
 
-        <!-- RIGHT: info panel -->
         <div class="search-right">
             <div class="panel-head">What you'll get —</div>
             <div class="panel-rule"></div>
-            <div class="panel-item">OAuth via Google <span class="panel-arrow">→</span></div>
+            <div class="panel-item">GitHub OAuth login <span class="panel-arrow">→</span></div>
             <div class="panel-item">Live GitHub API stats <span class="panel-arrow">→</span></div>
-            <div class="panel-item">Language breakdown <span class="panel-arrow">→</span></div>
-            <div class="panel-item">Top repositories <span class="panel-arrow">→</span></div>
+            <div class="panel-item">Top language breakdown <span class="panel-arrow">→</span></div>
+            <div class="panel-item">Followers · following · repos <span class="panel-arrow">→</span></div>
             <div class="panel-item">Shareable card URL <span class="panel-arrow">→</span></div>
-            <div class="panel-stack">→ node · express · ejs</div>
+            <div class="panel-stack">→ node · express · ejs · github api</div>
         </div>
 
     </div>
 
-    <!-- STATUS -->
     <div class="status-bar">
         <span><span class="status-dot"></span>READY</span>
         <span>DEVPRINT · NODE 20 · EXPRESS 4</span>

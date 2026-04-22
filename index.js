@@ -1,9 +1,9 @@
 const express = require("express");
 const path = require("path");
 const axios = require("axios");
-const {auth, requiresAuth} = require("express-openid-connect");
-const { profile } = require("console");
+const { auth, requiresAuth } = require("express-openid-connect");
 require("dotenv").config();
+
 const port = process.env.PORT || 3000;
 const app = express();
 
@@ -14,108 +14,113 @@ app.use(auth({
     baseURL: process.env.AUTH0_BASE_URL,
     clientID: process.env.AUTH0_CLIENT_ID,
     issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL
-}))
+}));
 
 app.set('view engine', "ejs");
-app.set("views", path.join(__dirname,"/views"));
-app.use(express.static(path.join(__dirname,"public")));
+app.set("views", path.join(__dirname, "/views"));
+app.use(express.static(path.join(__dirname, "public")));
 
+// health check — ping this with UptimeRobot every 14 min to avoid cold starts
 app.get('/healthz', (req, res) => {
-  res.status(200).json({
-    status: 'ok',
-    uptime: process.uptime(),
-    timestamp: new Date().toISOString()
-  });
+    res.status(200).json({
+        status: 'ok',
+        uptime: process.uptime(),
+        timestamp: new Date().toISOString()
+    });
 });
-app.listen(port,()=>{
-    console.log(`app is listening on ${port}`);
-})
 
-
-// home-page
-
-app.get("/",(req,res) => {
-    const authInfo = req.oidc;
-    if (authInfo.isAuthenticated()){
-        res.redirect('/search');
-    }else{
-        res.render('home')
+// home — redirect to card if logged in
+app.get("/", (req, res) => {
+    if (req.oidc.isAuthenticated()) {
+        res.redirect('/card');
+    } else {
+        res.render('home');
     }
-})
+});
 
-//search-github-page
+// /search is dead — card page handles everything
+app.get("/search", requiresAuth(), (req, res) => {
+    res.redirect('/card');
+});
 
-app.get("/search",requiresAuth(),(req,res)=>{
-    res.render('search', {error : null});
-})
+// card — own card if no ?username, else look up that user
+app.get("/card", requiresAuth(), async (req, res) => {
+    const loggedInUser = req.oidc.user?.nickname;
+    const username = req.query.username || loggedInUser;
+    const isOwnCard = !req.query.username;
 
-// card-display-page
-
-// recieve the username
-app.get("/card",requiresAuth(),(req,res)=>{
-
-    const username = req.query.username;
-    console.log("USERNAME:", username);
     const headers = {
         Authorization: `Bearer ${process.env.GITHUB_TOKEN}`
     };
-    const profileURL = `https://api.github.com/users/${username}`;
-    const repoURL = `https://api.github.com/users/${username}/repos`;
-    
-    async function getUser(){
-        try{
-            const info = await axios.get(profileURL, { headers });
-            let avatar_url = info.data.avatar_url;
-            let bio = info.data.bio;
-            let login = info.data.login;
-            let public_repo_count = info.data.public_repos;
-            let followers = info.data.followers;
-            let following = info.data.following;
 
-            const repoInfo = await axios.get(repoURL,{ headers });
-            const repos = repoInfo.data;
-            const langCount = {};
+    try {
+        const [profileRes, repoRes] = await Promise.all([
+            axios.get(`https://api.github.com/users/${username}`, { headers }),
+            axios.get(`https://api.github.com/users/${username}/repos?per_page=100`, { headers })
+        ]);
 
-            for (repo of repos){
-                let lang = repo.language;
+        const { avatar_url, bio, login, name, public_repos, followers, following } = profileRes.data;
+        const repos = repoRes.data;
 
-                if(lang){
-                    if(langCount[lang]){
-                        langCount[lang]++;
-                    }else{
-                        langCount[lang] = 1;
-                    }
-                }
+        // language frequency count
+        const langCount = {};
+        for (const repo of repos) {
+            if (repo.language) {
+                langCount[repo.language] = (langCount[repo.language] || 0) + 1;
             }
-            
-            const topLangs = Object.entries(langCount).sort((a,b) => b[1]-a[1]).slice(0,3);
-            topLangs.forEach(([lang, count]) => {
-                console.log(`${lang}: ${count}`)
-            });
-            res.render("card", {
-                google: req.oidc.user,
-                github: {
-                    login,
-                    avatar_url,
-                    bio,
-                    public_repo_count,
-                    followers,
-                    following,
-                    topLangs
-                }
-            });
-            console.log(topLangs);
+        }
+        const topLangs = Object.entries(langCount)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 3);
 
-        }catch (err) {
-            console.log("ERROR TYPE:", err.name);
-            console.log("ERROR MESSAGE:", err.message);
-            console.log("FULL:", err);
-            res.render('search', { error: "User Not Found" });
+        res.render("card", {
+            searchError: null,
+            loggedInUser,
+            isOwnCard,
+            github: {
+                login,
+                name,
+                avatar_url,
+                bio,
+                public_repo_count: public_repos,
+                followers,
+                following,
+                topLangs
+            }
+        });
+
+    } catch (err) {
+        console.error("GitHub API error:", err.message);
+        if (isOwnCard) {
+            res.redirect('/');
+        } else {
+            // re-render card with own card data + error message
+            // fetch own card data so the page still renders correctly
+            try {
+                const [ownProfile, ownRepos] = await Promise.all([
+                    axios.get(`https://api.github.com/users/${loggedInUser}`, { headers }),
+                    axios.get(`https://api.github.com/users/${loggedInUser}/repos?per_page=100`, { headers })
+                ]);
+                const { avatar_url, bio, login, name, public_repos, followers, following } = ownProfile.data;
+                const repos = ownRepos.data;
+                const langCount = {};
+                for (const repo of repos) {
+                    if (repo.language) langCount[repo.language] = (langCount[repo.language] || 0) + 1;
+                }
+                const topLangs = Object.entries(langCount).sort((a, b) => b[1] - a[1]).slice(0, 3);
+                res.render("card", {
+                    loggedInUser,
+                    isOwnCard: true,
+                    searchError: username,
+                    github: { login, name, avatar_url, bio, public_repo_count: public_repos, followers, following, topLangs }
+                });
+            } catch (e) {
+                res.redirect('/');
+            }
         }
     }
-    getUser();
-      
-    
-})
-// shortlist the top languages
-// display info
+});
+
+app.listen(port, () => {
+    console.log(`DevPrint running on port ${port}`);
+});

@@ -3,49 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevPrint — Card</title>
+    <title>DevPrint — <%= github.login %></title>
     <link rel="stylesheet" href="/style.css">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 </head>
 <body>
 
-<!-- NAV -->
 <nav class="nav">
     <a href="/" class="nav-logo">DEV<span>PRINT</span></a>
     <span class="nav-tagline">the developer's mirror</span>
     <div class="nav-actions">
-        <a href="/search" class="btn-sm">← search</a>
+        <% if (!isOwnCard) { %>
+            <a href="/card" class="btn-sm">← my card</a>
+        <% } %>
+        <span class="nav-user"><%= loggedInUser %></span>
         <a href="/logout" class="btn-sm">logout</a>
     </div>
 </nav>
 
-<!-- ISSUE STRIP -->
-<div class="issue-strip" style="margin-top: 56px;">
-    <span>DEVPRINT · DEVELOPER CARD · GENERATED LIVE</span>
-    <span>GITHUB API · 2025</span>
-</div>
-
-<div class="card-page-wrap" style="padding-top: 0;">
+<div class="card-page-wrap">
 <div class="card-page-body">
 
-    <!-- fetch log -->
-    <div class="fetch-log ok">$ devprint --generate --format card</div>
-    <div class="fetch-log info">✓ profile fetched · github api · live data</div>
-    <div class="card-sep"></div>
+    <!-- ══ HERO HEADER ══ -->
+  <div class="card-hero">
+    <div class="card-hero-left">
+        <!-- <div class="card-hero-eyebrow">$ devprint --generate · live · github api</div> -->
+        <h1 class="card-hero-name"><%= github.name || github.login %></h1>
+        <div class="card-hero-eyebrow">Github profile Card - devprint</div>
+    </div>
+</div>
 
-    <!-- DEV CARD -->
+    <!-- ══ DEV CARD ══ -->
     <div class="dev-card">
-        <div class="dev-card-accent"></div>
+        <div class="dev-card-topbar"></div>
 
         <div class="dev-card-grid">
 
             <!-- COL 1: IDENTITY -->
             <div class="col-identity">
                 <div class="card-issue-tag">Developer Card</div>
-                <img class="card-avatar" src="<%= github.avatar_url %>" />
-                <div class="card-name"><%=github.name || github.login%></div>
-                <div class="card-uni">GitHub Developer</div>
-                <div class="card-bio"><%=github.bio%></div>
+                <img class="card-avatar" src="<%= github.avatar_url %>" alt="<%= github.login %>" />
+                <div class="card-name"><%= github.name || github.login %></div>
+                <div class="card-handle">@<%= github.login %></div>
+                <div class="card-bio"><%= github.bio || 'No bio yet.' %></div>
+                <a href="https://github.com/<%= github.login %>" target="_blank" class="card-ghlink">github.com/<%= github.login %> ↗</a>
             </div>
 
             <div class="card-vline"></div>
@@ -57,26 +58,32 @@
 
                 <div class="stat-row">
                     <span class="stat-key">repositories</span>
-                    <span class="stat-val"><%=github.public_repo_count%></span>
+                    <span class="stat-val"><%= github.public_repo_count %></span>
                 </div>
                 <div class="stat-row">
                     <span class="stat-key">followers</span>
-                    <span class="stat-val"><%=github.followers%></span>
+                    <span class="stat-val"><%= github.followers %></span>
                 </div>
                 <div class="stat-row">
                     <span class="stat-key">following</span>
-                    <span class="stat-val"><%=github.following%></span>
+                    <span class="stat-val"><%= github.following %></span>
                 </div>
 
-                <!-- LANGUAGES -->
                 <div class="lang-block">
-                    <div class="lang-head">Languages</div>
-                    <% github.topLangs.forEach(([lang]) => { %>
+                    <div class="lang-head">Top Languages</div>
+                    <%
+                        const maxCount = github.topLangs[0] ? github.topLangs[0][1] : 1;
+                        const rankLabels = ['PRIMARY', 'SECONDARY', 'TERTIARY'];
+                        github.topLangs.forEach(([lang, count], i) => {
+                            const pct = Math.round((count / maxCount) * 100);
+                    %>
                     <div class="lang-row">
+                        <span class="lang-rank"><%= rankLabels[i] %></span>
                         <span class="lang-name"><%= lang %></span>
                         <div class="lang-track">
-                            <div class="lang-fill" style="width: 60%"></div>
+                            <div class="lang-fill" style="width:<%= pct %>%"></div>
                         </div>
+                        <span class="lang-pct"><%= pct %>%</span>
                     </div>
                     <% }) %>
                 </div>
@@ -84,48 +91,73 @@
 
             <div class="card-vline"></div>
 
-            <!-- COL 3: REPOS + ACTIONS -->
+            <!-- COL 3: ACTIONS -->
             <div class="col-repos">
                 <div class="col-head">Actions</div>
                 <div class="col-rule"></div>
 
                 <div class="card-actions">
-                    <button class="btn-export">↓ Export card</button>
-                    <div class="btn-row">
-                        <a href="/search" class="btn-sec">← New search</a>
-                        <a href="/logout" class="btn-sec">Logout</a>
+                    <a href="https://github.com/<%= github.login %>" target="_blank" class="btn-export">View on GitHub ↗</a>
+                    <% if (!isOwnCard) { %>
+                    <div class="btn-row" style="margin-top:6px;">
+                        <a href="/card" class="btn-sec">← my card</a>
+                    </div>
+                    <% } %>
+                    <div class="btn-row" style="margin-top:6px;">
+                        <a href="/logout" class="btn-sec">logout</a>
                     </div>
                 </div>
 
-                <!-- spacer -->
-                <div style="margin-top: 28px;">
-                    <div class="col-head">Profile</div>
-                    <div class="col-rule"></div>
-                    <div class="repo-item">
-                        <div class="repo-name"><%=google.name%></div>
-                        <div class="repo-meta">authenticated via google oauth</div>
-                    </div>
-                    <div class="repo-item" style="border-bottom: none;">
-                        <div class="repo-name" style="font-size: 13px; color: #777;"><%=github.public_repo_count%> public repos</div>
-                        <div class="repo-meta"><%=github.followers%> followers · <%=github.following%> following</div>
-                    </div>
+                <div class="share-block">
+                    <div class="share-label">Shareable link</div>
+                    <div class="share-url">devprint.adrish.me/card?username=<%= github.login %></div>
                 </div>
             </div>
 
         </div>
 
-        <!-- CARD FOOTER -->
         <div class="dev-card-footer">
-            <span class="card-badge">DEVPRINT · NODE + EXPRESS + EJS</span>
-            <em class="card-badge-em">devprint.app</em>
+            <span class="card-badge">DEVPRINT · NODE · EXPRESS · EJS</span>
+            <em class="card-badge-em">devprint.adrish.me</em>
+        </div>
+    </div>
+
+    <!-- ══ SEARCH SECTION ══ -->
+    <div class="search-section">
+        <div class="search-section-left">
+            <div class="search-prompt">$ devprint --search</div>
+            <div class="search-rule"></div>
+            <h2 class="search-h1">Find a</h2>
+            <span class="search-h1-accent">Developer.</span>
+            <p class="search-sub">Enter a GitHub username to generate their developer card.</p>
+            <form action="/card" method="GET">
+                <div class="input-field">
+                    <span class="input-slash">$</span>
+                    <input name="username" placeholder="github username…" autocomplete="off" />
+                    <button type="submit" class="input-submit">GENERATE →</button>
+                </div>
+                <div class="input-hint">press enter or click generate</div>
+                <% if (locals.searchError) { %>
+                <div class="error-box">⚠ User "<%= searchError %>" not found</div>
+                <% } %>
+            </form>
+        </div>
+        <div class="search-section-right">
+            <div class="panel-head">What you'll get —</div>
+            <div class="panel-rule"></div>
+            <div class="panel-item">GitHub OAuth login <span class="panel-arrow">→</span></div>
+            <div class="panel-item">Live GitHub API stats <span class="panel-arrow">→</span></div>
+            <div class="panel-item">Top language breakdown <span class="panel-arrow">→</span></div>
+            <div class="panel-item">Followers · following · repos <span class="panel-arrow">→</span></div>
+            <div class="panel-item">Shareable card URL <span class="panel-arrow">→</span></div>
+            <div class="panel-stack">→ node · express · ejs · github api</div>
         </div>
     </div>
 
 </div>
 
-<!-- STATUS -->
 <div class="status-bar">
-    <span><span class="status-dot"></span>CARD GENERATED</span>
+    <span><span class="status-dot"></span>CARD GENERATED · <%= github.login %></span>
     <span>DEVPRINT · GITHUB API · LIVE</span>
 </div>
 </div>
