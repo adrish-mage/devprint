@@ -25,13 +25,12 @@
 <div class="card-page-body">
 
     <!-- ══ HERO HEADER ══ -->
-  <div class="card-hero">
-    <div class="card-hero-left">
-        <!-- <div class="card-hero-eyebrow">$ devprint --generate · live · github api</div> -->
-        <h1 class="card-hero-name"><%= github.name || github.login %></h1>
-        <div class="card-hero-eyebrow">Github profile Card - devprint</div>
+    <div class="card-hero">
+        <div class="card-hero-left">
+            <!-- <h1 class="card-hero-name"><%= github.name || github.login %></h1> -->
+            <div class="card-hero-eyebrow">Github profile Card - devprint</div>
+        </div>
     </div>
-</div>
 
     <!-- ══ DEV CARD ══ -->
     <div class="dev-card">
@@ -39,7 +38,7 @@
 
         <div class="dev-card-grid">
 
-            <!-- COL 1: IDENTITY -->
+            <!-- COL 1: IDENTITY (row 1) -->
             <div class="col-identity">
                 <div class="card-issue-tag">Developer Card</div>
                 <img class="card-avatar" src="<%= github.avatar_url %>" alt="<%= github.login %>" />
@@ -51,7 +50,7 @@
 
             <div class="card-vline"></div>
 
-            <!-- COL 2: STATS + LANGS -->
+            <!-- COL 2: STATS + LANGS (row 1) -->
             <div class="col-stats">
                 <div class="col-head">Stats</div>
                 <div class="col-rule"></div>
@@ -91,7 +90,7 @@
 
             <div class="card-vline"></div>
 
-            <!-- COL 3: ACTIONS -->
+            <!-- COL 3: ACTIONS (row 1) -->
             <div class="col-repos">
                 <div class="col-head">Actions</div>
                 <div class="col-rule"></div>
@@ -114,43 +113,58 @@
                 </div>
             </div>
 
+            <!-- ══ HEATMAP — row 2, spans all columns ══ -->
+            <div class="heatmap-section">
+                <div class="heatmap-label">Contributions</div>
+                <div class="heatmap-scroll">
+                    <div class="grid">
+                        <% contributionStats.weeks.forEach(week => { %>
+                        <div class="column">
+                            <% week.days.forEach(day => { %>
+                            <div class="cell <%= day.level %>" title="<%= day.date %> : <%= day.count %>"></div>
+                            <% }) %>
+                        </div>
+                        <% }) %>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
-        <div class="dev-card-footer">
-            <span class="card-badge">DEVPRINT · NODE · EXPRESS · EJS</span>
-            <em class="card-badge-em">devprint.adrish.me</em>
-        </div>
+            
     </div>
 
-    <!-- ══ SEARCH SECTION ══ -->
+    <!-- ══ SEARCH SECTION — CENTERED ══ -->
     <div class="search-section">
-        <div class="search-section-left">
-            <div class="search-prompt">$ devprint --search</div>
-            <div class="search-rule"></div>
-            <h2 class="search-h1">Find a</h2>
-            <span class="search-h1-accent">Developer.</span>
-            <p class="search-sub">Enter a GitHub username to generate their developer card.</p>
-            <form action="/card" method="GET">
-                <div class="input-field">
-                    <span class="input-slash">$</span>
-                    <input name="username" placeholder="github username…" autocomplete="off" />
-                    <button type="submit" class="input-submit">GENERATE →</button>
-                </div>
-                <div class="input-hint">press enter or click generate</div>
-                <% if (locals.searchError) { %>
-                <div class="error-box">⚠ User "<%= searchError %>" not found</div>
-                <% } %>
-            </form>
-        </div>
-        <div class="search-section-right">
-            <div class="panel-head">What you'll get —</div>
-            <div class="panel-rule"></div>
-            <div class="panel-item">GitHub OAuth login <span class="panel-arrow">→</span></div>
-            <div class="panel-item">Live GitHub API stats <span class="panel-arrow">→</span></div>
-            <div class="panel-item">Top language breakdown <span class="panel-arrow">→</span></div>
-            <div class="panel-item">Followers · following · repos <span class="panel-arrow">→</span></div>
-            <div class="panel-item">Shareable card URL <span class="panel-arrow">→</span></div>
-            <div class="panel-stack">→ node · express · ejs · github api</div>
+        <div class="search-inner">
+            <div class="search-section-left">
+                <div class="search-prompt">$ devprint --search</div>
+                <div class="search-rule"></div>
+                <h2 class="search-h1">Find a</h2>
+                <span class="search-h1-accent">Developer.</span>
+                <p class="search-sub">Enter a GitHub username to generate their developer card.</p>
+                <form action="/card" method="GET">
+                    <div class="input-field">
+                        <span class="input-slash">$</span>
+                        <input name="username" placeholder="github username…" autocomplete="off" />
+                        <button type="submit" class="input-submit">GENERATE →</button>
+                    </div>
+                    <div class="input-hint">press enter or click generate</div>
+                    <% if (locals.searchError) { %>
+                    <div class="error-box">⚠ User "<%= searchError %>" not found</div>
+                    <% } %>
+                </form>
+            </div>
+            <div class="search-section-right">
+                <div class="panel-head">What you'll get —</div>
+                <div class="panel-rule"></div>
+                <div class="panel-item">GitHub OAuth login <span class="panel-arrow">→</span></div>
+                <div class="panel-item">Live GitHub API stats <span class="panel-arrow">→</span></div>
+                <div class="panel-item">Top language breakdown <span class="panel-arrow">→</span></div>
+                <div class="panel-item">Followers · following · repos <span class="panel-arrow">→</span></div>
+                <div class="panel-item">Shareable card URL <span class="panel-arrow">→</span></div>
+                <div class="panel-stack">→ node · express · ejs · github api</div>
+            </div>
         </div>
     </div>
 
