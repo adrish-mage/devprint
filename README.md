@@ -3,7 +3,7 @@
 # DevPrint
 **Your GitHub identity, decoded.**
 
-[![Live](https://img.shields.io/badge/live-devprint.adrish.me-00e676?style=for-the-badge)](https://devprint.adrish.me/)
+[![Live](https://img.shields.io/badge/live-devprint.adrish.me-00e676?style=for-the-badge&color=lightgreen)](https://devprint.adrish.me/)
 [![Node.js](https://img.shields.io/badge/node-20.x-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org)
 [![Express](https://img.shields.io/badge/express-4.x-000000?style=for-the-badge&logo=express)](https://expressjs.com)
 [![Auth0](https://img.shields.io/badge/auth0-github_oauth-EB5424?style=for-the-badge&logo=auth0&logoColor=white)](https://auth0.com)
@@ -101,6 +101,7 @@ AUTH0_CLIENT_ID=
 AUTH0_CLIENT_SECRET=
 AUTH0_ISSUER_BASE_URL=  # https://auth0-tenant.auth0.com
 GITHUB_TOKEN=           # PAT with public_repo read scope
+GITHUB_GRAPHQL_TOKEN=   # Additional token generated during graphQL integration
 PORT=3000
 ```
 
@@ -119,10 +120,19 @@ Auth0 needs **GitHub as a social connection** and `http://localhost:3000/callbac
 
 ## Roadmap
 
-- [ ] MongoDB caching with TTL — GitHub's REST API has a 60 req/hr limit for unauthenticated calls; caching repo data per user kills that bottleneck
-- [ ] `/u/:username` — public permalink so cards are shareable without login
-- [ ] PNG export — card as a downloadable image, useful for profiles and bios
+**API & Data**
+- [ ] GraphQL — Heatmap (contribution graph via GitHub's GraphQL API)
+- [ ] REST — Stats tiles (additional stat blocks from REST endpoints)
+- [ ] Route — Public profile (`/u/:username` shareable permalink without login)
 
+**Persistence**
+- [ ] MongoDB — Cache layer (TTL-based caching to beat the 60 req/hr unauthenticated limit)
+- [ ] MongoDB — Saved profiles (persist and retrieve user cards from DB)
+
+**Production**
+- [ ] Prod — Error handler (graceful error boundaries and user-facing messages)
+- [ ] Prod — Rate limiting (per-IP throttling to protect the API)
+- [ ] Prod — Logging (structured request/error logging for observability)
 ---
 
 ## Author
