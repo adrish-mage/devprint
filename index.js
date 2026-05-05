@@ -37,7 +37,7 @@ app.get("/", (req, res) => {
     }
 });
 // card — own card if no ?username, else look up that user
-   app.get("/card", requiresAuth(), async (req, res) => {
+app.get("/card", requiresAuth(), async (req, res) => {
     const loggedInUser = req.oidc.user?.nickname;
     const username = req.query.username || loggedInUser;
     const isOwnCard = !req.query.username;
@@ -85,16 +85,28 @@ app.get("/", (req, res) => {
     };
 
     try {
-        const [profileRes, graphQL] = await Promise.all([
+        const [profileRes, repoData, graphQL] = await Promise.all([
             axios.get(`https://api.github.com/users/${username}`, { headers }),
-            axios.post("https://api.github.com/graphql", buildQuery(username), { headers })
+            axios.get(`https://api.github.com/users/${username}/repos`, { headers }),
+            axios.post("https://api.github.com/graphql", buildQuery(username), { headers }),
+            
+
         ]);
 
         const { avatar_url, bio, login, name, followers, following } = profileRes.data;
+        const starsCount = [];
+        repoData.data.forEach((repo) => {
+            starsCount.push(repo.stargazers_count);
+        });
+        const totalStars = starsCount.reduce((sum,stars) => sum + stars , 0);
+        console.log(`STARS ${totalStars}`);
         const userData = graphQL.data.data.user;
+        console.dir(userData.repositories.nodes,{depth : null});
         if (!userData) throw new Error("GitHub user not found");
-        const topLangs = parseLangs(userData.repositories.nodes);
 
+        // top language 
+        const topLangs = parseLangs(userData.repositories.nodes);
+        // heatmap
         function getLevel(count) {
             if(count == 0) return "off";
             if(count >= 1 && count <= 2) return "dim";
@@ -104,7 +116,6 @@ app.get("/", (req, res) => {
 
         }
         const weeks = userData.contributionsCollection.contributionCalendar.weeks;
-        
         const coloredWeeks = weeks.map(week => ({ // weeks -> days -> date: count: level:
             days : week.contributionDays.map(day => ({
                 date: day.date,
@@ -112,7 +123,7 @@ app.get("/", (req, res) => {
                 level: getLevel(day.contributionCount)
             }))
         }));        
-
+        
         res.render("card", {
             searchError: null,
             loggedInUser,
@@ -125,7 +136,8 @@ app.get("/", (req, res) => {
                 public_repo_count: profileRes.data.public_repos,
                 followers,
                 following,
-                topLangs
+                topLangs,
+                totalStars
             },
             contributionStats: {
                 weeks: coloredWeeks
@@ -143,7 +155,8 @@ app.get("/", (req, res) => {
             try {
                 const [ownProfile, ownGraphQL] = await Promise.all([
                     axios.get(`https://api.github.com/users/${loggedInUser}`, { headers }),
-                    axios.post("https://api.github.com/graphql", buildQuery(loggedInUser), { headers })
+                    axios.post("https://api.github.com/graphql", buildQuery(loggedInUser), { headers }),
+                    
                 ]);
 
                 const { avatar_url, bio, login, name, followers, following } = ownProfile.data;
@@ -162,7 +175,8 @@ app.get("/", (req, res) => {
         }
     }
 });
- 
+// shareable card / card visible to un-logged in users too
+
     app.listen(port, () => {
         console.log(`DevPrint running on port ${port}`);
     });
