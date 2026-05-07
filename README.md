@@ -134,7 +134,7 @@ Auth0 needs **GitHub as a social connection** and `http://localhost:3000/callbac
 - [ ] Prod — Rate limiting (per-IP throttling to protect the API)
 - [ ] Prod — Logging (structured request/error logging for observability)
 ---
-
+API & DATA features implemented in version 2.0 [screenshots and readme to be updated]
 ## Author
 
 **Adrish Dey** — IT, Calcutta University  
