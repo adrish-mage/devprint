@@ -16,5 +16,10 @@
     "ejs": "^5.0.2",
     "express": "^5.2.1",
     "express-openid-connect": "^2.20.1"
+  },
+  "devDependencies": {
+    "connect-livereload": "^0.6.1",
+    "livereload": "^0.10.3",
+    "nodemon": "^3.1.14"
   }
 }
