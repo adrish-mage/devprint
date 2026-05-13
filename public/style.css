@@ -590,6 +590,9 @@ body {
   grid-row: 2;
   padding: 20px 262px 28px;
   border-top: 1px solid var(--border);
+  display: flex;
+  flex-wrap: wrap;        /* so label + scroll wrap naturally */
+  align-items: flex-end;
 }
 
 .heatmap-label {
@@ -739,18 +742,25 @@ body {
   background: transparent;
   border: 1px solid var(--border);
   border-radius: 25px;
-  padding: 3px 8px;
+  padding: 0;
   cursor: pointer;
   white-space: nowrap;
   text-decoration: none;
   flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
 }
 .open{
   padding-top: 15px;
 }
-.promo{
-  margin-top: 100px;
-  margin-left: 100px;
+.promo {
+  width: 40%;                
+  display: flex;
+  justify-content: center;    
+  /* margin-top: 16px; */
+  height: 20%;
+  margin-left: 700px;
+  margin-top: 60px;
 }
 .share-btn:hover {
   border-color: var(--accent);
