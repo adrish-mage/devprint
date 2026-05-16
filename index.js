@@ -190,8 +190,8 @@ app.get("/card", requiresAuth(), async (req, res) => {
 app.get("/u/:username", async (req,res) =>{
 
 const loggedInUser = req.oidc.user?.nickname;
-const username = req.query.username || loggedInUser;
-const isOwnCard = !req.query.username;
+const username = req.params.username || loggedInUser;
+const isOwnCard = !req.params.username;
 
 const headers = {
     Authorization: `Bearer ${process.env.GITHUB_TOKEN}`
@@ -250,9 +250,9 @@ try {
         starsCount.push(repo.stargazers_count);
     });
     const totalStars = starsCount.reduce((sum,stars) => sum + stars , 0);
-    console.log(`STARS ${totalStars}`);
+    // console.log(`STARS ${totalStars}`);
     const userData = graphQL.data.data.user;
-    console.dir(userData.repositories.nodes,{depth : null});
+    // console.dir(userData.repositories.nodes,{depth : null});
     if (!userData) throw new Error("GitHub user not found");
 
     // top language 

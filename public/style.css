@@ -753,15 +753,7 @@ body {
 .open{
   padding-top: 15px;
 }
-.promo {
-  width: 40%;                
-  display: flex;
-  justify-content: center;    
-  /* margin-top: 16px; */
-  height: 20%;
-  margin-left: 700px;
-  margin-top: 60px;
-}
+
 .share-btn:hover {
   border-color: var(--accent);
 }
@@ -801,7 +793,31 @@ body {
   color: var(--muted);
   opacity: 0.45;
 }
-
+/* promo-card */
+.promo {
+  font-family: var(--serif);
+  color: var(--cream);
+  opacity: .7;
+  text-transform: uppercase;
+  letter-spacing: 1px;;
+  text-decoration: none;
+  
+}
+.promo-card{
+  position: relative;
+  top: 700px;
+  right: 700px;
+  display: flex;
+  border-radius: 25px;
+  border: 1px solid var(--muted);
+  height: 50px;
+  width: 300px;
+  align-items: center;
+  justify-content: center;
+}
+.promo-card:hover{
+  border: 1px solid var(--accent);
+}
 /* ══ SEARCH SECTION — CENTERED ══ */
 .search-section {
   /* margin-top: 64px; */
