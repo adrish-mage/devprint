@@ -1,0 +1,88 @@
+const axios = require("axios");
+
+const buildQuery = (login) => ({
+    query: `query {
+        user(login: "${login}") {
+            contributionsCollection {
+                contributionCalendar {
+                    weeks {
+                        contributionDays {
+                            date
+                            contributionCount
+                        }
+                    }
+                }
+            }
+            repositories(first: 100, ownerAffiliations: OWNER) {
+                nodes {
+                    languages(first: 5, orderBy: {field: SIZE, direction: DESC}) {
+                        edges {
+                            size
+                            node { name }
+                        }
+                    }
+                }
+            }
+        }
+    }`
+});
+const parseLangs = (repoNodes) => { // repoNodes -> repo -> languages -> edge -> node -> name
+    const langCount = {};
+    repoNodes.forEach(repo => {
+        repo.languages.edges.forEach(edge => {
+            const lang = edge.node.name;
+            langCount[lang] = (langCount[lang] || 0) + edge.size;
+        });
+    });
+    return Object.entries(langCount).sort((a, b) => b[1] - a[1]).slice(0, 4);
+};
+function getLevel(count) {
+    if(count == 0) return "off";
+    if(count >= 1 && count <= 2) return "dim";
+    if(count >= 3 && count <= 5) return "mid";
+    if(count >= 6) return "bright";
+    return "off";
+
+}
+
+async function fetchGitHubData(username){
+    const headers = {
+        Authorization: `Bearer ${process.env.GITHUB_TOKEN}`
+    };
+    const [profileRes, repoData, graphQL] = await Promise.all([
+        axios.get(`https://api.github.com/users/${username}`, { headers }),
+        axios.get(`https://api.github.com/users/${username}/repos`, { headers }),
+        axios.post("https://api.github.com/graphql", buildQuery(username), { headers }),
+    ]);
+
+    const { avatar_url, bio, login, name, followers, following } = profileRes.data;
+    const starsCount = [];
+    repoData.data.forEach((repo) => {
+        starsCount.push(repo.stargazers_count);
+    });
+    const totalStars = starsCount.reduce((sum,stars) => sum + stars , 0);
+    console.log(`STARS ${totalStars}`);
+    const userData = graphQL.data.data.user;
+    // console.dir(userData.repositories.nodes,{depth : null});
+    if (!userData) throw new Error("GitHub user not found");
+
+    // top language 
+    const topLangs = parseLangs(userData.repositories.nodes);
+    const weeks = userData.contributionsCollection.contributionCalendar.weeks;
+    const coloredWeeks = weeks.map(week => ({ // weeks -> days -> date: count: level:
+        days : week.contributionDays.map(day => ({
+            date: day.date,
+            count: day.contributionCount,
+            level: getLevel(day.contributionCount)
+        }))
+    }));  
+    return {                                   
+        login, name, avatar_url, bio,
+        followers, following,
+        public_repo_count: profileRes.data.public_repos,
+        topLangs,
+        totalStars,
+        coloredWeeks
+    };
+}
+module.exports = { fetchGitHubData };
