@@ -1,4 +1,5 @@
 const axios = require("axios");
+const Profile = require("../models/profile");
 
 const buildQuery = (login) => ({
     query: `query {
@@ -85,4 +86,29 @@ async function fetchGitHubData(username){
         coloredWeeks
     };
 }
-module.exports = { fetchGitHubData };
+
+async function getGithubData(username) {
+    const cached = await Profile.findOne({username});
+    const ONE_HOUR = 60 * 60 * 1000;
+    const isFresh = cached && (Date.now() - cached.fetchedAt) < ONE_HOUR;
+    
+    if(isFresh){
+        console.log(`Cache HIT for ${username}`);
+        return cached;
+    }
+    console.log(`Cache MISS for ${username}, fetching from GitHub...`);
+    const freshData = await fetchGitHubData(username);
+    const updated = await Profile.findOneAndUpdate(
+        {username},
+        {$set : {stats: freshData, heatmapData: freshData.coloredWeeks,fetchedAt: Date.now()}},
+        
+        {
+            new: true,
+            upsert: true,
+        }
+    )
+    return updated; 
+
+}
+
+module.exports = { getGithubData };

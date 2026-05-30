@@ -1,12 +1,21 @@
 const express = require("express");
 const path = require("path");
 const { auth } = require("express-openid-connect"); 
-const livereload = require("livereload");
-const connectLiveReload = require("connect-livereload");
+// const livereload = require("livereload");
+// const connectLiveReload = require("connect-livereload");
 require("dotenv").config();
-
+const mongoose = require("mongoose");
 const port = process.env.PORT || 3000;
 const app = express();
+
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => {
+        console.log("MongoDB connected successfully")
+    })
+    .catch((err) => {
+        console.log("Error connecting to MongoDB", err);
+    })
+
 
 app.use(auth({
     authRequired: false,
@@ -17,18 +26,18 @@ app.use(auth({
     issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,  
 }));
 app.set('view engine', "ejs");
-app.set("views", path.join(__dirname, "/views"));
+app.set("views", path.join(__dirname, "/services/views"));
 app.use(express.static(path.join(__dirname, "public")));
-app.use(connectLiveReload());
-const liveReloadServer = livereload.createServer();
+// app.use(connectLiveReload());
+// const liveReloadServer = livereload.createServer();
 
-liveReloadServer.watch(__dirname + "/views");
-liveReloadServer.watch(__dirname + "/public");
-liveReloadServer.server.once("connection", () => {
-  setTimeout(() => {
-    liveReloadServer.refresh("/");
-  }, 100);
-});
+// liveReloadServer.watch(__dirname + "/views");
+// liveReloadServer.watch(__dirname + "/public");
+// liveReloadServer.server.once("connection", () => {
+//   setTimeout(() => {
+//     liveReloadServer.refresh("/");
+//   }, 100);
+// });
 // health check
 app.get('/healthz', (req, res) => {
     res.status(200).json({

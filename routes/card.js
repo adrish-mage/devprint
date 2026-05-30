@@ -1,13 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const { requiresAuth } = require('express-openid-connect');
-const { fetchGitHubData } = require('../services/github');
+const { getGithubData } = require('../services/github');
 
 router.get("/card", requiresAuth(), async (req, res) => {
     const loggedInUser = req.oidc.user?.nickname;
     const username = req.query.username || loggedInUser;
     try {
-        const data = await fetchGitHubData(username);
+        const doc = await getGithubData(username);
+        const data = doc.stats;
+        console.log(data);
         res.render("card", {
             searchError: null,
             loggedInUser,
@@ -27,7 +29,9 @@ router.get("/card", requiresAuth(), async (req, res) => {
             nickname: loggedInUser
         });
     } catch (err) {
-        res.redirect('/');
+        console.error('Card route error:', err.message);
+        res.status(500).send(err.message);
+
     }
 });
 
