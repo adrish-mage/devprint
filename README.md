@@ -121,12 +121,12 @@ Auth0 needs **GitHub as a social connection** and `http://localhost:3000/callbac
 ## Roadmap
 
 **API & Data**
-- [ ] GraphQL — Heatmap (contribution graph via GitHub's GraphQL API)
-- [ ] REST — Stats tiles (additional stat blocks from REST endpoints)
-- [ ] Route — Public profile (`/u/:username` shareable permalink without login)
+- [x] GraphQL — Heatmap (contribution graph via GitHub's GraphQL API)
+- [x] REST — Stats tiles (additional stat blocks from REST endpoints)
+- [x] Route — Public profile (`/u/:username` shareable permalink without login)
 
 **Persistence**
-- [ ] MongoDB — Cache layer (TTL-based caching to beat the 60 req/hr unauthenticated limit)
+- [x] MongoDB — Cache layer (TTL-based caching to beat the 60 req/hr unauthenticated limit)
 - [ ] MongoDB — Saved profiles (persist and retrieve user cards from DB)
 
 **Production**
