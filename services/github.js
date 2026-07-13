@@ -1,5 +1,6 @@
 const axios = require("axios");
 const Profile = require("../models/profile");
+const Counter = require("../models/counter");
 
 const buildQuery = (login) => ({
     query: `query {
@@ -77,16 +78,26 @@ async function fetchGitHubData(username){
             level: getLevel(day.contributionCount)
         }))
     }));  
+    // counter increment
+    const updateCounter = async () => {
+        try {
+            await Counter.findOneAndUpdate({_id: "global"}, {$inc: {totalCards: 1}}, {upsert: true});
+        } catch (err) {
+            console.error("Counter update failed:", err);
+        }
+    }
+    updateCounter();
     return {                                   
         login, name, avatar_url, bio,
         followers, following,
         public_repo_count: profileRes.data.public_repos,
         topLangs,
         totalStars,
-        coloredWeeks
+        coloredWeeks,
+
     };
 }
-
+// cache - layer
 async function getGithubData(username) {
     const cached = await Profile.findOne({username});
     const ONE_HOUR = 60 * 60 * 1000;
@@ -98,6 +109,7 @@ async function getGithubData(username) {
     }
     console.log(`Cache MISS for ${username}, fetching from GitHub...`);
     const freshData = await fetchGitHubData(username);
+    
     const updated = await Profile.findOneAndUpdate(
         {username},
         {$set : {stats: freshData, heatmapData: freshData.coloredWeeks,fetchedAt: Date.now()}},

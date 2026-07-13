@@ -1,8 +1,8 @@
 const express = require("express");
 const path = require("path");
 const { auth } = require("express-openid-connect"); 
-// const livereload = require("livereload");
-// const connectLiveReload = require("connect-livereload");
+const Profile = require("./models/profile");
+const Counter = require("./models/counter");
 require("dotenv").config();
 const mongoose = require("mongoose");
 const port = process.env.PORT || 3000;
@@ -28,17 +28,7 @@ app.use(auth({
 app.set('view engine', "ejs");
 app.set("views", path.join(__dirname, "/services/views"));
 app.use(express.static(path.join(__dirname, "public")));
-// app.use(connectLiveReload());
-// const liveReloadServer = livereload.createServer();
 
-// liveReloadServer.watch(__dirname + "/views");
-// liveReloadServer.watch(__dirname + "/public");
-// liveReloadServer.server.once("connection", () => {
-//   setTimeout(() => {
-//     liveReloadServer.refresh("/");
-//   }, 100);
-// });
-// health check
 app.get('/healthz', (req, res) => {
     res.status(200).json({
         status: 'ok',
@@ -59,5 +49,11 @@ app.use(require('./routes/card'));
 // shareable card / card visible to un-logged in users too
 app.use(require('./routes/share'));
 app.listen(port, () => {
-        console.log(`DevPrint running on port ${port}`);
+    console.log(`DevPrint running on port ${port}`);
 });
+
+app.get("/stats",async (req,res) => {
+    const totalCards = (await Counter.findOne({_id:"global"})) ?.totalCards || 0 ;
+    const uniqueDevelopers = await Profile.countDocuments();
+    res.json({totalCards,uniqueDevelopers});
+})
