@@ -1,15 +1,19 @@
 const express = require('express');
 const router = express.Router();
-const { fetchGitHubData } = require('../services/github');
+const { getGithubData } = require('../services/github');
 
 router.get("/u/:username", async (req, res) => {
-    const loggedInUser = req.oidc.user?.nickname;
+    const viewerLoggedIn = req.oidc.isAuthenticated();
+    const loggedInUser = viewerLoggedIn ? req.oidc.user?.nickname : null;
+    const isOwnCard = viewerLoggedIn && loggedInUser?.toLowerCase() === req.params.username?.toLowerCase();
+
     try {
-        const data = await fetchGitHubData(req.params.username);
-        res.render("share-card", { 
+        const doc = await getGithubData(req.params.username);
+        const data = doc.stats;
+        res.render("share-card", {
             searchError: null,
             loggedInUser,
-            isOwnCard: !req.query.username,
+            isOwnCard,
             github: {
                 login: data.login,
                 name: data.name,
@@ -22,9 +26,10 @@ router.get("/u/:username", async (req, res) => {
                 totalStars: data.totalStars
             },
             contributionStats: { weeks: data.coloredWeeks },
-            nickname: loggedInUser
+            nickname: req.params.username
         });
     } catch (err) {
+        console.error('Share route error:', err.message);
         res.redirect('/');
     }
 });

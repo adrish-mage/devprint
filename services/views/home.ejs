@@ -12,7 +12,7 @@
 <!-- NAV -->
 <nav class="nav">
     <a href="/" class="nav-logo">DEV<span>PRINT</span></a>
-    <span class="nav-tagline">the developer's mirror</span>
+    <span class="nav-tagline">A developer's mirror</span>
     <div class="nav-actions">
         <a href="/login" class="btn btn-accent">Login with GitHub</a>
     </div>
@@ -22,7 +22,7 @@
 
     <!-- HERO -->
     <section class="hero">
-        <div class="hero-eyebrow">// github intelligence tool</div>
+        
         <h1 class="hero-h1">Your GitHub,</h1>
         <span class="hero-h1-outline">decoded.</span>
         <p class="hero-sub">Log in with GitHub. Your developer card generates instantly — no setup, no typing.</p>
@@ -32,6 +32,35 @@
         </div>
     </section>
 
+    
+    <!-- ══ SEARCH SECTION — CENTERED ══ -->
+    <div class="search-section">
+        <div class="search-inner">
+            <div class="search-section-left">
+                <h2 class="search-h1">Find a</h2>
+                <span class="search-h1-accent">Developer.</span>
+                <p class="search-sub">Enter a GitHub username to generate their developer card.</p>
+                <form action="/card" method="GET">
+                    <div class="input-field">
+                        <span class="input-slash">SEARCH</span>
+                        <input name="username" placeholder="github username…" autocomplete="off" />
+                        <button type="submit" class="input-submit">GENERATE →</button>
+                    </div>
+                    <div class="input-hint">press enter or click generate</div>
+                    <% if (locals.searchError) { %>
+                    <div class="error-box">⚠ User "<%= searchError %>" not found</div>
+                    <% } %>
+                </form>
+            </div>
+            <div class="search-section-right">
+                <div class="panel-head">Log in to —</div>
+                <div class="panel-rule"></div>
+                <div class="panel-item">Claim a permanent link at /u/your-username <span class="panel-arrow">→</span></div>
+                <div class="panel-item">Regenerate your card on demand <span class="panel-arrow">→</span></div>
+                <div class="panel-item">Higher API rate limit via your own GitHub token <span class="panel-arrow">→</span></div>    
+            </div>
+        </div>
+    </div>
     <!-- FEATURE STRIP -->
     <section class="feature-strip" id="features">
         <div class="feature-item">
@@ -50,13 +79,12 @@
             <p class="feature-desc">Search any GitHub username and generate their card too.</p>
         </div>
     </section>
-
     <!-- BOTTOM STRIP -->
-    <div class="issue-strip">
-        <span>DEVPRINT · NODE + EXPRESS + EJS + GITHUB API</span>
-        <span>2026</span>
-    </div>
-
+<div class="issue-strip">
+    <span>DEVPRINT · Decode your github</span>
+    <span>Built by <a href="https://github.com/adrish-mage" target="_blank" class="strip-link">@adrish-mage</a> </span>
+    <span>© 2026</span>
+</div>
 </div>
 
 </body>

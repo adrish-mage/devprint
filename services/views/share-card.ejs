@@ -13,11 +13,19 @@
     <a href="/" class="nav-logo">DEV<span>PRINT</span></a>
     <span class="nav-tagline">the developer's mirror</span>
     <div class="nav-actions">
-        <% if (!isOwnCard) { %>
+        <% if (isOwnCard) { %>
+            <form action="/card/refresh" method="POST">
+                <button type="submit" class="btn-sec">↻ Regenerate</button>
+            </form>
+        <% } else if (loggedInUser) { %>
             <a href="/card" class="btn-sm">← my card</a>
         <% } %>
-        <span class="nav-user"><%= loggedInUser %></span>
-        <a href="/logout" class="btn-sm">logout</a>
+        <% if (loggedInUser) { %>
+            <span class="nav-user"><%= loggedInUser %></span>
+            <a href="/logout" class="btn-sm">logout</a>
+        <% } else { %>
+            <a href="/login" class="btn-sm btn-accent">Login with GitHub</a>
+        <% } %>
     </div>
 </nav>
 
@@ -110,14 +118,9 @@
             </div>
             <div class="promo-card">
                 <a class="promo" href="/" target="_blank">Create your devprint ↗</a>    
-            </div>
-            
-            
-
-    
-            
-            
+            </div>  
         </div>
+            
 
         </div>
 

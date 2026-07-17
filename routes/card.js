@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { requiresAuth } = require('express-openid-connect');
 const { getGithubData } = require('../services/github');
+const Profile = require("../models/profile")
 
 router.get("/card", requiresAuth(), async (req, res) => {
     const loggedInUser = req.oidc.user?.nickname;
@@ -35,4 +36,15 @@ router.get("/card", requiresAuth(), async (req, res) => {
     }
 });
 
+router.post("/card/refresh", requiresAuth(), async(req,res) => {
+    const username = req.oidc.user?.nickname;
+    try{
+        await Profile.deleteOne({username});
+        await getGithubData(username);
+    }catch(err) {
+        console.error("Refresh Error",err.message);
+    }
+    res.redirect(`/card`);    
+
+})
 module.exports = router;
