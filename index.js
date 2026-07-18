@@ -48,12 +48,24 @@ app.get("/", (req, res) => {
 app.use(require('./routes/card'));
 // shareable card / card visible to un-logged in users too
 app.use(require('./routes/share'));
+
+app.get("/stats", async (req, res) => {
+    const totalCards = (await Counter.findOne({_id:"global"}))?.totalCards || 0;
+    const uniqueDevelopers = await Profile.countDocuments();
+    res.json({ totalCards, uniqueDevelopers });
+});
+
+// 404 — must come after all real routes above
+app.use((req, res) => {
+    res.status(404).render("error", { message: "Page not found." });
+});
+
+// global error handler — must be last, must keep all 4 args or Express won't treat it as an error handler
+app.use((err, req, res, next) => {
+    console.error("Unhandled error:", err);
+    res.status(500).render("error", { message: "Something went wrong." });
+});
+
 app.listen(port, () => {
     console.log(`DevPrint running on port ${port}`);
 });
-
-app.get("/stats",async (req,res) => {
-    const totalCards = (await Counter.findOne({_id:"global"})) ?.totalCards || 0 ;
-    const uniqueDevelopers = await Profile.countDocuments();
-    res.json({totalCards,uniqueDevelopers});
-})

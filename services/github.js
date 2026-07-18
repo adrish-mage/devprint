@@ -3,8 +3,8 @@ const Profile = require("../models/profile");
 const Counter = require("../models/counter");
 
 const buildQuery = (login) => ({
-    query: `query {
-        user(login: "${login}") {
+    query: `query($login: String!) {
+        user(login: $login) {
             contributionsCollection {
                 contributionCalendar {
                     weeks {
@@ -26,7 +26,8 @@ const buildQuery = (login) => ({
                 }
             }
         }
-    }`
+    }`,
+    variables: { login }
 });
 const parseLangs = (repoNodes) => { // repoNodes -> repo -> languages -> edge -> node -> name
     const langCount = {};

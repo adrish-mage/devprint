@@ -32,6 +32,10 @@
         </div>
     </div>
 
+    <% if (locals.searchError) { %>
+    <div class="error-box"><%= searchError %></div>
+    <% } %>
+
     <!-- ══ DEV CARD ══ -->
     <div class="dev-card">
         <div class="dev-card-topbar"></div>
