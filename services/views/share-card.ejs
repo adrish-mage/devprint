@@ -84,7 +84,7 @@
                     <div class="lang-head">Top Languages</div>
                     <%
                         const maxCount = github.topLangs[0] ? github.topLangs[0][1] : 1;
-                        const rankLabels = ['PRIMARY', 'SECONDARY', 'TERTIARY'];
+                        const rankLabels = ['PRIMARY', 'SECONDARY', 'TERTIARY','QUATERNARY'];
                         github.topLangs.forEach(([lang, count], i) => {
                             const pct = Math.round((count / maxCount) * 100);
                     %>

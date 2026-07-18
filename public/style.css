@@ -92,6 +92,19 @@ body {
   letter-spacing: 0.5px;
 }
 
+.btn-icon {
+  display: inline-flex;
+  width: 2em;
+  height: 2em;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-icon svg {
+  width: 1.6em;
+  height: 1.6em;
+}
+
 .btn-primary {
   background: var(--cream);
   color: var(--bg);
@@ -99,24 +112,34 @@ body {
 .btn-primary:hover { background: #f5f0e8; }
 
 .btn-ghost {
-  background: transparent;
-  border: 1px solid var(--border2);
+  position: relative;
+background:
+  linear-gradient(var(--bg), var(--bg)) padding-box,
+  linear-gradient(120deg, #00bd68, #3bf79a, #006b3a) border-box;
+border: 1.5px solid transparent;
+
+  border: 2.5px solid transparent;
+
+  border-radius: 999px;
   color: var(--muted);
   font-family: var(--serif);
   font-size: 13px;
   font-style: italic;
-  padding: 11px 22px;
+  padding: 11px 24px;
+  transition: color 0.2s, box-shadow 0.2s;
 }
-.btn-ghost:hover { border-color: var(--muted); color: var(--text); }
+.btn-ghost:hover { color: var(--text); box-shadow: 0 0 18px var(--accent-dim); }
 
 .btn-accent {
   background: var(--accent);
   color: #000;
-  font-family: var(--mono);
+  font-family: var(--sans);
   font-size: 12px;
   font-weight: 500;
   padding: 10px 20px;
   letter-spacing: 1px;
+  border-radius: 50px;
+  
 }
 .btn-accent:hover { background: #33eb91; }
 
@@ -838,7 +861,7 @@ body {
 /* Two-column inner layout, centered */
 .search-inner {
   display: grid;
-  grid-template-columns: 1fr 260px;
+  grid-template-columns: 1fr 380px;
   gap: 0;
   align-items: start;
   max-width: 1300px;        
@@ -848,7 +871,7 @@ body {
 .search-section-left { padding-right: 60px; }
 
 .search-section-right {
-  padding-left: 40px;
+  padding-left: 44px;
   border-left: 1px solid var(--border);
 }
 
@@ -897,6 +920,7 @@ body {
   background: var(--surface);
   margin-bottom: 8px;
   transition: border-color 0.2s;
+  border-radius: 12px;
 }
 .input-field:focus-within { border-color: var(--border2); }
 
@@ -924,7 +948,7 @@ body {
   padding: 0 14px;
   height: 42px;
 }
-.input-field input::placeholder { color: var(--dim); }
+.input-field input::placeholder { color: #4a4a52; }
 
 .input-submit {
   height: 42px;
@@ -939,15 +963,18 @@ body {
   cursor: pointer;
   white-space: nowrap;
   transition: background 0.15s, color 0.15s;
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+
 }
 .input-submit:hover { background: var(--cream); color: #111; }
 
 .input-hint {
   font-family: var(--mono);
-  font-size: 9px;
+  font-size: 12px;
   color: var(--muted);
   letter-spacing: 1px;
-  opacity: 0.3;
+  opacity: .9;
 }
 
 .error-box {
@@ -965,41 +992,45 @@ body {
 .panel-head {
   font-family: var(--serif);
   font-style: italic;
-  font-size: 11px;
-  color: var(--muted);
-  margin-bottom: 10px;
-  opacity: 0.7;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 18px;
+  opacity: 0.95;
 }
 
-.panel-rule { height: 1px; background: var(--border); margin-bottom: 14px; }
+.panel-rule { height: 2px; background: var(--border2); margin-bottom: 20px; }
 
 .panel-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 9px 0;
+  gap: 16px;
+  padding: 20px 0;
   border-bottom: 1px solid var(--border);
-  font-size: 11px;
-  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--text);
   font-weight: 300;
-  opacity: 0.7;
+  opacity: 0.9;
 }
 
 .panel-arrow {
   font-family: var(--mono);
-  font-size: 10px;
-  color: var(--muted);
-  opacity: 0.3;
+  font-size: 18px;
+  color: var(--accent);
+  opacity: 0.6;
+  flex-shrink: 0;
 }
 
 .panel-stack {
-  margin-top: 14px;
+  margin-top: 18px;
   font-family: var(--mono);
-  font-size: 9px;
+  font-size: 11px;
   color: var(--muted);
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
   font-style: italic;
-  opacity: 0.3;
+  opacity: 0.5;
 }
 
 /* ══ STATUS BAR ══ */
@@ -1123,4 +1154,583 @@ body {
   }
 
   .status-bar { padding: 8px 16px; }
+}
+
+/* ══════════════════════════════════════════════════
+   ROADMAP / HOW IT WORKS — new home section
+   (added; existing rules above untouched)
+   ══════════════════════════════════════════════════ */
+
+.roadmap {
+  border-top: 1px solid var(--border);
+  padding: 100px 44px 120px;
+  position: relative;
+}
+
+.roadmap::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 32px 32px;
+  opacity: 0.18;
+  pointer-events: none;
+}
+
+.roadmap-inner {
+  max-width: 1360px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.roadmap-head {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto 76px;
+}
+
+.roadmap-eyebrow {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--accent);
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  opacity: 0.9;
+  display: block;
+  margin-bottom: 22px;
+}
+
+.roadmap-h1 {
+  font-family: var(--serif);
+  font-size: clamp(2.6rem, 5.4vw, 4.2rem);
+  font-weight: 900;
+  letter-spacing: -2px;
+  line-height: 1.1;
+  color: var(--text);
+  margin-bottom: 22px;
+}
+
+.roadmap-h1-accent {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--accent);
+}
+
+.roadmap-sub {
+  font-size: 18px;
+  color: var(--muted);
+  font-weight: 300;
+  line-height: 1.8;
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+.roadmap-body {
+  display: grid;
+  grid-template-columns: 1fr 440px;
+  gap: 80px;
+  align-items: start;
+}
+
+/* ── steps timeline ── */
+.roadmap-steps {
+  list-style: none;
+  position: relative;
+}
+
+.roadmap-steps::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: 27px;
+  width: 2px;
+  background: var(--border2);
+}
+
+.roadmap-step {
+  display: flex;
+  gap: 28px;
+  padding-bottom: 52px;
+  position: relative;
+}
+.roadmap-step:last-child { padding-bottom: 0; }
+
+.roadmap-step-num {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 2px solid var(--border2);
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 1px;
+  position: relative;
+  z-index: 1;
+}
+
+.roadmap-step-content { padding-top: 8px; }
+
+.roadmap-step-title {
+  font-family: var(--serif);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.3px;
+  margin-bottom: 10px;
+}
+
+.roadmap-step-desc {
+  font-size: 16.5px;
+  color: var(--muted);
+  font-weight: 300;
+  line-height: 1.8;
+  max-width: 520px;
+}
+.roadmap-step-desc code {
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--accent);
+  opacity: 0.9;
+}
+
+/* ── example card ── */
+.roadmap-demo-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  opacity: 0.7;
+  margin-bottom: 16px;
+}
+
+.demo-card {
+  border: 1px solid var(--border2);
+  background: var(--card);
+  padding: 34px 32px 28px;
+  position: relative;
+}
+
+.demo-card::before {
+  content: 'DEMO';
+  position: absolute;
+  top: -1px; right: -1px;
+  background: var(--accent);
+  color: #000;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  padding: 5px 12px;
+}
+
+.demo-card-top {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 20px;
+}
+
+.demo-card-avatar {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  border: 1px solid var(--border2);
+  background: var(--dim);
+  object-fit: cover;
+}
+
+.demo-card-name {
+  font-family: var(--serif);
+  font-size: 23px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.demo-card-handle {
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--accent);
+  opacity: 0.8;
+}
+
+.demo-card-bio {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 16px;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+
+.demo-card-stats {
+  display: flex;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 20px 0;
+  margin-bottom: 24px;
+}
+
+.demo-stat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.demo-stat-val {
+  font-family: var(--serif);
+  font-size: 30px;
+  font-weight: 900;
+  color: var(--text);
+  letter-spacing: -1px;
+}
+
+.demo-stat-key {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--muted);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.demo-card-langs { margin-bottom: 24px; }
+
+.demo-lang-row {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.demo-lang-row:last-child { margin-bottom: 0; }
+
+.demo-lang-name {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 14px;
+  color: var(--text);
+  opacity: 0.8;
+}
+
+.demo-lang-track {
+  height: 4px;
+  background: var(--dim);
+  overflow: hidden;
+}
+
+.demo-lang-fill {
+  height: 100%;
+  background: var(--cream);
+}
+
+.demo-card-heatmap {
+  display: grid;
+  grid-template-columns: repeat(16, 1fr);
+  gap: 3px;
+  margin-bottom: 20px;
+}
+
+.demo-cell {
+  width: 100%;
+  padding-top: 100%;
+  border-radius: 1px;
+}
+.demo-cell.off    { background: #1e1e22; }
+.demo-cell.dim    { background: #0e4429; }
+.demo-cell.mid    { background: #26a641; }
+.demo-cell.bright { background: #39d353; }
+
+.demo-card-tag {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--muted);
+  letter-spacing: 1.5px;
+  opacity: 0.55;
+  text-align: center;
+}
+
+.roadmap-cta {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 76px;
+}
+
+@media (max-width: 860px) {
+  .roadmap { padding: 64px 16px 72px; }
+  .roadmap-body { grid-template-columns: 1fr; gap: 48px; }
+  .roadmap-steps::before { left: 27px; }
+  .roadmap-h1 { font-size: 2.2rem; }
+  .roadmap-sub { font-size: 16px; }
+}
+
+/* ══════════════════════════════════════════════════
+   HERO — SPLIT LAYOUT (headline left, side card right)
+   Used by both home.ejs variants below.
+   ══════════════════════════════════════════════════ */
+
+.hero-split {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 64px;
+  align-items: center;
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 120px 44px 90px;
+  position: relative;
+}
+
+.hero-split::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 25px 25px;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.hero-text {
+  text-align: left;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-text .hero-h1,
+.hero-text .hero-h1-outline {
+  text-align: left;
+}
+
+.hero-text .hero-sub {
+  margin: 0 0 40px;
+  max-width: 460px;
+}
+
+.hero-text .hero-cta {
+  justify-content: flex-start;
+}
+
+.hero-side {
+  position: relative;
+  z-index: 1;
+}
+
+/* compact bordered card used inside hero-side, for either the search
+   form or the login-perks panel */
+.hero-card {
+  border: 1px solid var(--border2);
+  background: var(--card);
+  padding: 32px;
+  border-radius: 10px;
+}
+
+.hero-card-eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  opacity: 0.85;
+  margin-bottom: 18px;
+}
+
+.hero-card .panel-head { margin-bottom: 16px; }
+.hero-card .panel-item { font-size: 15px; padding: 16px 0; }
+
+@media (max-width: 960px) {
+  .hero-split { grid-template-columns: 1fr; padding: 90px 20px 56px; gap: 36px; }
+  .hero-text, .hero-text .hero-h1, .hero-text .hero-h1-outline { text-align: center; }
+  .hero-text .hero-sub { margin: 0 auto 32px; }
+  .hero-text .hero-cta { justify-content: center; }
+}
+
+/* ══ Standalone perks strip (used when the search box takes the hero's
+   right column, so the login-perks panel becomes its own full-width
+   row instead) ══ */
+.perks-strip {
+  border-top: 1px solid var(--border);
+  padding: 48px 44px;
+}
+
+.perks-inner { max-width: 1360px; margin: 0 auto; }
+
+.perks-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.perks-title {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 22px;
+  color: var(--text);
+}
+
+.perks-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.perks-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 20px;
+  border: 1px solid var(--border);
+}
+
+.perks-item p {
+  font-size: 15px;
+  color: var(--text);
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+.perks-item p code {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--accent);
+}
+
+.perks-arrow {
+  font-family: var(--mono);
+  color: var(--accent);
+  font-size: 16px;
+  flex-shrink: 0;
+  opacity: 0.8;
+}
+
+@media (max-width: 860px) {
+  .perks-strip { padding: 36px 16px; }
+  .perks-grid { grid-template-columns: 1fr; }
+}
+
+/* ══ Standalone centered search section (used when the login-perks
+   panel takes the hero's right column, so search becomes its own
+   full-width, centered row instead) ══ */
+.search-standalone {
+  border-top: 1px solid var(--border);
+  padding: 64px 44px;
+  text-align: center;
+}
+
+.search-standalone-inner {
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.search-standalone .search-h1,
+.search-standalone .search-h1-accent {
+  text-align: center;
+}
+
+.search-standalone-sub {
+  font-size: 15px;
+  color: var(--muted);
+  font-weight: 300;
+  margin: 0 auto 20px;
+  line-height: 1.6;
+  max-width: 400px;
+}
+
+.search-standalone .input-field { text-align: left; }
+
+/* ── fix: on short/narrow phones the search row (SEARCH | input | GENERATE)
+   was crammed right up to the edge — stack it instead of forcing one row ── */
+@media (max-width: 480px) {
+  .search-standalone { padding: 48px 20px; }
+  .hero-card { padding: 24px; }
+
+  .input-field {
+    flex-wrap: wrap;
+  }
+  .input-slash {
+    width: 100%;
+    height: 36px;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+  .input-field input {
+    width: 100%;
+    flex: 1 1 100%;
+  }
+  .input-submit {
+    display: block;
+    width: 100%;
+    text-align: center;
+    height: 44px;
+  }
+}
+
+/* ══ Search bar sitting beside the "Find a Developer" heading,
+   instead of centered underneath it ══ */
+.search-inline {
+  border-top: 1px solid var(--border);
+  padding: 64px 44px;
+}
+
+.search-inline-inner {
+  max-width: 1300px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 48px;
+  align-items: center;
+}
+
+.search-inline-right { width: 100%; }
+
+@media (max-width: 860px) {
+  .search-inline-inner { grid-template-columns: 1fr; gap: 28px; }
+}
+
+@media (max-width: 480px) {
+  .search-inline { padding: 48px 20px; }
+}
+
+/* laptop and up only — make the search bar itself bigger, rest of the
+   breakpoints (tablet/mobile) stay exactly as they were */
+@media (min-width: 1024px) {
+  .search-inline-inner { grid-template-columns: 1fr 850px; }
+
+  .search-inline-right .input-slash {
+    height: 62px;
+    font-size: 15px;
+    padding: 0 20px;
+    color: var(--text);
+    opacity: 0.85;
+  }
+  .search-inline-right .input-field input {
+    height: 62px;
+    font-size: 17px;
+    padding: 0 20px;
+  }
+  .search-inline-right .input-field input::placeholder {
+    color: #9a9aa4;
+  }
+  .search-inline-right .input-submit {
+    height: 62px;
+    padding: 0 30px;
+    font-size: 14px;
+    letter-spacing: 2px;
+  }
 }

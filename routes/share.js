@@ -2,6 +2,13 @@ const express = require('express');
 const router = express.Router();
 const { getGithubData } = require('../services/github');
 
+router.get("/search",(req,res) => {
+    const username = req.query.username?.trim();
+    if(!username) {
+        return res.redirect('/');
+    }
+    res.redirect(`/u/${encodeURIComponent(username)}`);
+})
 router.get("/u/:username", async (req, res) => {
     const viewerLoggedIn = req.oidc.isAuthenticated();
     const loggedInUser = viewerLoggedIn ? req.oidc.user?.nickname : null;
@@ -30,7 +37,7 @@ router.get("/u/:username", async (req, res) => {
         });
     } catch (err) {
         console.error('Share route error:', err.message);
-        res.redirect('/');
+        res.redirect(`/?error=${encodeURIComponent(req.params.username)}`);
     }
 });
 

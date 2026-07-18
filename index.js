@@ -41,7 +41,7 @@ app.get("/", (req, res) => {
     if (req.oidc.isAuthenticated()) {
         res.redirect('/card');
     } else {
-        res.render('home');
+        res.render('home',{ searchError: req.query.error || null });
     }
 });
 // card — own card if no ?username, else look up that user
