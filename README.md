@@ -12,20 +12,12 @@
 
 ---
 
-<p align="center">
-  <a href="https://devprint.adrish.me">
-    <img src="./assets/devprint-1.png" width="800" alt="DevPrint card"/>
-  </a>
-</p>
-<p align="center">
-  <img src="./assets/devprint-2.png" width="800"/>
-</p>
-<p align="center">
-  <img src="./assets/devprint-3.png" width="800"/>
-</p>
-<p align="center">
-  <img src="./assets/devprint-4.png" width="800"/>
-</p>
+<img width="1891" height="718" alt="image" src="https://github.com/user-attachments/assets/283771a4-1169-4668-bb88-6beef4c602e3" />
+
+<img width="1895" height="572" alt="image" src="https://github.com/user-attachments/assets/1c092640-fab2-4f4a-80a5-3b85b398154b" />
+
+<img width="1895" height="965" alt="image" src="https://github.com/user-attachments/assets/9f491be5-ddfd-4d82-a8b0-d5e2c3385781" />
+<img width="1892" height="972" alt="image" src="https://github.com/user-attachments/assets/fed3e7e0-4657-44e8-9c57-1374668c1ba7" />
 
 ---
 
