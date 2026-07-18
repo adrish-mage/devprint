@@ -160,14 +160,14 @@ border: 1.5px solid transparent;
 
 /* ============ ISSUE STRIP ============ */
 .issue-strip {
-  background: var(--cream);
+  background: var(--cream-dim);
   padding: 7px 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-family: var(--mono);
   font-size: 9px;
-  color: #444;
+  color: #a9a9a9;
   letter-spacing: 2px;
   text-transform: uppercase;
 }
