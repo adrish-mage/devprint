@@ -38,7 +38,7 @@ router.get("/card", requiresAuth(), async (req, res) => {
             nickname: loggedInUser
         }));
     } catch (err) {
-        console.error('Card route error:', err.message);
+        console.error('Card route error:', err);
 
         // if a searched username failed, fall back to the logged-in user's own
         // card with an inline error instead of dumping the raw error to the page

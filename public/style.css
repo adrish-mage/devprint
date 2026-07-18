@@ -31,6 +31,7 @@ body {
   font-size: 15px;
   line-height: 1.6;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 /* ============ NAV ============ */
@@ -740,7 +741,6 @@ border: 1.5px solid transparent;
 
 .share-url {
   padding: 15px;
-  margin-right: 600px;
   font-family: var(--mono);
   font-size: 12px;
   color: var(--muted);
@@ -782,11 +782,13 @@ border: 1.5px solid transparent;
 }
 
 .share {
-  width: 1020px;
+  max-width: 1020px;
+  width: 100%;
 }
 .line {
-  width : 1271px;
-  border-top:0px solid cream ;
+  max-width: 1271px;
+  width: 100%;
+  border-top: 0px solid cream;
 }
 
 /* card footer */
@@ -827,16 +829,15 @@ border: 1.5px solid transparent;
   
 }
 .promo-card{
-  position: relative;
-  top: 700px;
-  right: 700px;
   display: flex;
   border-radius: 25px;
   border: 1px solid var(--muted);
   height: 50px;
-  width: 300px;
+  width: 100%;
+  max-width: 300px;
   align-items: center;
   justify-content: center;
+  margin: 20px auto 0;
 }
 .promo-card:hover{
   border: 1px solid var(--accent);
@@ -1066,8 +1067,15 @@ border: 1.5px solid transparent;
 }
 /* ══ RESPONSIVE ══ */
 @media (max-width: 860px) {
-  .nav { padding: 0 16px; }
+  .nav { padding: 0 16px; min-width: 0; }
   .nav-tagline { display: none; }
+  .nav-actions { min-width: 0; flex-shrink: 1; }
+  .nav-user {
+    max-width: 110px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 
   .issue-strip { padding: 6px 16px; font-size: 8px; }
 
@@ -1086,6 +1094,7 @@ border: 1.5px solid transparent;
   .dev-card-grid {
     grid-template-columns: 1fr;
     grid-template-rows: auto;
+    min-width: 0;
   }
   .card-vline { display: none; }
 
@@ -1093,15 +1102,19 @@ border: 1.5px solid transparent;
     grid-row: auto;
     padding: 24px 20px 20px;
     border-top: none;
+    min-width: 0;
   }
   .card-avatar { width: 80px; height: 80px; }
   .card-name { font-size: 24px; }
   .card-handle { font-size: 13px; }
-  .card-bio { font-size: 14px; }
+  .card-bio { font-size: 14px; overflow-wrap: anywhere; }
+  .card-ghlink { overflow-wrap: anywhere; }
 
   .heatmap-section {
     grid-column: 1;
+    grid-row: auto;
     padding: 16px 20px 20px;
+    min-width: 0;
   }
   .cell { width: 8px; height: 8px; }
   .grid { gap: 2px; }
@@ -1111,6 +1124,7 @@ border: 1.5px solid transparent;
     grid-row: auto;
     padding: 20px;
     border-top: 1px solid var(--border);
+    min-width: 0;
   }
   /* stat numbers were disappearing — reset any conflicting grid */
   .stat-row {
@@ -1119,6 +1133,7 @@ border: 1.5px solid transparent;
     align-items: baseline;
     padding: 10px 0;
     border-bottom: 1px solid var(--border);
+    min-width: 0;
   }
   .stat-val {
     font-size: 38px;
@@ -1131,17 +1146,40 @@ border: 1.5px solid transparent;
   .lang-row {
     grid-template-columns: 80px 1fr 30px;
     gap: 8px;
+    min-width: 0;
   }
   .lang-rank { display: none; }
 
   .col-repos {
     grid-row: auto;
     padding: 20px;
+    min-width: 0;
     border-top: 1px solid var(--border);
   }
   .btn-export { font-size: 15px; padding: 14px; }
   .btn-sec { font-size: 12px; padding: 11px; }
-  .share-block { margin-top: 20px; }
+  .share-block {
+    margin-top: 20px;
+    flex-direction: column;
+    gap: 4px;
+    padding: 18px 16px 20px;
+  }
+  .share-bar {
+    padding-left: 0;
+    flex-wrap: wrap;
+  }
+  .share-url {
+    padding: 8px 0;
+    width: 100%;
+    flex: 1 1 100%;
+  }
+  .share-btn {
+    width: auto;
+    flex: 1;
+    min-width: 90px;
+    height: 42px;
+  }
+  .open { padding-top: 0; }
 
   .search-inner { grid-template-columns: 1fr; }
   .search-section-left { padding-right: 0; }
@@ -1733,4 +1771,12 @@ border: 1.5px solid transparent;
     font-size: 14px;
     letter-spacing: 2px;
   }
+}
+
+/* ══ Narrow phones — the username text plus logout/back button no
+   longer fit next to the logo without wrapping or clipping, so drop
+   the username and keep just the action button(s) ══ */
+@media (max-width: 420px) {
+  .nav { padding: 0 12px; }
+  .nav-user { display: none; }
 }
