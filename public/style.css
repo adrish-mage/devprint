@@ -160,14 +160,14 @@ border: 1.5px solid transparent;
 
 /* ============ ISSUE STRIP ============ */
 .issue-strip {
-  background: var(--cream-dim);
+  background: var(--cream);
   padding: 7px 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-family: var(--mono);
   font-size: 9px;
-  color: #a9a9a9;
+  color: #444;
   letter-spacing: 2px;
   text-transform: uppercase;
 }
@@ -829,6 +829,7 @@ border: 1.5px solid transparent;
   
 }
 .promo-card{
+  grid-column: 1 / -1;
   display: flex;
   border-radius: 25px;
   border: 1px solid var(--muted);
