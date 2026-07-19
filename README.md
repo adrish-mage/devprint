@@ -5,7 +5,7 @@
 
 [![Live](https://img.shields.io/badge/live-devprint.adrish.me-00e676?style=for-the-badge&color=lightgreen)](https://devprint.adrish.me/)
 [![Node.js](https://img.shields.io/badge/node-20.x-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org)
-[![Express](https://img.shields.io/badge/express-4.x-000000?style=for-the-badge&logo=express)](https://expressjs.com)
+[![Express](https://img.shields.io/badge/express-5.x-000000?style=for-the-badge&logo=express)](https://expressjs.com)
 [![Auth0](https://img.shields.io/badge/auth0-github_oauth-EB5424?style=for-the-badge&logo=auth0&logoColor=white)](https://auth0.com)
 
 </div>
@@ -39,7 +39,11 @@ Language breakdown, star totals, and the contribution heatmap are all computed s
 
 ---
 
+<<<<<<< HEAD
 ## What DevPrint does
+=======
+DevPrint pulls your GitHub identity through OAuth, crunches your repo data server-side, and spits out a developer card. No forms, no manual input — you log in and your card is already there. You can also search any other GitHub user from the homepage.
+>>>>>>> 6571a18 (fix/homepage search redirect route)
 
 - Uses GitHub OAuth (via Auth0) to turn your GitHub account into a “DevPrint” card.  
 - Aggregates profile, repositories, stars, languages, and contribution activity into a single server-rendered view.  
@@ -49,6 +53,7 @@ Language breakdown, star totals, and the contribution heatmap are all computed s
 
 ## Features
 
+<<<<<<< HEAD
 - **GitHub OAuth login** — One-click login via Auth0 GitHub social connection; no separate account, forms, or passwords. Your GitHub identity *is* your DevPrint identity.  
 - **Instant card generation** — The moment you log in, your card is built from your session data. No configuration or onboarding flow.  
 - **Search any GitHub user** — Use the inline search to generate a card for any GitHub username; login is only required for your own card.  
@@ -56,11 +61,21 @@ Language breakdown, star totals, and the contribution heatmap are all computed s
 - **On-demand regeneration** — A **Regenerate** button re-fetches your data and busts the cache when your stats or activity change.  
 - **Server-side stats only** — Language breakdown, star totals, and the contribution heatmap are computed from raw REST + GraphQL data, not third-party widgets.  
 - **MongoDB caching** — A 1‑hour TTL cache in MongoDB ensures repeat views and popular searches avoid redundant GitHub API calls.  
+=======
+- **GitHub OAuth login** — one click via Auth0, no forms, no separate account, no password to manage. Your GitHub identity *is* your DevPrint identity.
+- **Instant card generation** — the moment you log in, your card is built from your session data. Nothing to configure.
+- **Search any GitHub user** — no login required. The homepage search bar looks anyone up and generates their card.
+- **Public shareable links** — every generated card lives at a permanent `/u/username` URL that anyone can open, no login needed on either end.
+- **On-demand regeneration** — a "Regenerate" button re-fetches your data and busts the cache, if your stats have changed since the last fetch.
+- **Server-side stats, zero third-party widgets** — language breakdown, star totals, and the contribution heatmap are all computed from raw GitHub REST + GraphQL responses, not an embedded badge service.
+- **Cached, not re-fetched** — a 1hr TTL cache in MongoDB means repeat views and popular searches don't hit GitHub's API again.
+>>>>>>> 6571a18 (fix/homepage search redirect route)
 
 ---
 
 ## Tech stack
 
+<<<<<<< HEAD
 | Layer       | Tech                                                   |
 |------------|---------------------------------------------------------|
 | Runtime    | Node.js 20                                             |
@@ -71,6 +86,18 @@ Language breakdown, star totals, and the contribution heatmap are all computed s
 | Persistence| MongoDB (cache-aside, 1hr TTL)                         |
 | Deployment | Render + Namecheap domain                              |
 | Uptime     | UptimeRobot — pings `/healthz` every 14 minutes        |
+=======
+| Layer | Tech |
+|---|---|
+| Runtime | Node.js 20 |
+| Server | Express 5 |
+| Templating | EJS |
+| Auth | Auth0 · GitHub OAuth (OpenID Connect) |
+| Data | GitHub REST API v3 + GraphQL v4 |
+| Persistence | MongoDB (cache-aside, 1hr TTL) |
+| Deployment | Render + Namecheap domain |
+| Uptime | UptimeRobot — pings `/healthz` every 14 min |
+>>>>>>> 6571a18 (fix/homepage search redirect route)
 
 Auth0 handles token exchange, session management, and provider configuration, so the app logic focuses on GitHub data ingestion and card rendering.[web:1]  
 EJS is used instead of a frontend framework because the app does not require client-side state; server rendering keeps things simple and fast for this flow.[web:1]
@@ -79,6 +106,7 @@ EJS is used instead of a frontend framework because the app does not require cli
 
 ## How it works
 
+<<<<<<< HEAD
 ```text
 GET /                    → unauthenticated → landing
                          → authenticated  → /card
@@ -88,6 +116,16 @@ GET /card                → pulls GitHub username from session (req.oidc.user.n
                          → Promise.all: profile + repos + GraphQL heatmap fetched in parallel
                          → language frequency computed server-side from raw repo objects
                          → renders card.ejs with data + inline search form
+=======
+GET /search    →  public, no login required
+               →  redirects to /u/:username
+
+GET /card      →  pulls github username from session (req.oidc.user.nickname)
+               →  cache check (MongoDB, 1hr TTL) → hit: return cached, miss: fetch
+               →  Promise.all: profile + repos + GraphQL heatmap fetched in parallel
+               →  language frequency computed server-side from raw repo objects
+               →  renders card.ejs with data
+>>>>>>> 6571a18 (fix/homepage search redirect route)
 
 GET /card?username=x     → same pipeline, different target
                          → on failure: falls back to your own card with an inline
@@ -108,6 +146,7 @@ No GitHub tokens are stored in the database; the session lives in a signed cooki
 
 ## Routes
 
+<<<<<<< HEAD
 | Route                  | Auth | Description                                                                                   |
 |------------------------|------|-----------------------------------------------------------------------------------------------|
 | `GET /`               | —    | Landing page; redirects to `/card` if logged in                                              |
@@ -119,6 +158,19 @@ No GitHub tokens are stored in the database; the session lives in a signed cooki
 | `GET /u/:username`    | —    | Public shareable card (no login required)                                                    |
 | `GET /healthz`        | —    | JSON status + uptime for health checks                                                       |
 | `GET /stats`          | —    | Global usage counters (total cards generated, unique developers)                             |
+=======
+| Route | Auth | |
+|---|---|---|
+| `GET /` | — | Landing — redirects to `/card` if logged in |
+| `GET /login` | — | Kicks off GitHub OAuth via Auth0 |
+| `GET /callback` | — | Auth0 redirect target |
+| `GET /logout` | ✓ | Clears session |
+| `GET /search?username=x` | — | Public search — redirects to `/u/:username` |
+| `GET /card` | ✓ | Your card, auto-generated from session |
+| `GET /u/:username` | — | Public shareable card, no login required |
+| `GET /healthz` | — | JSON status + uptime (keep-alive target) |
+| `GET /stats` | — | Global usage counters (total cards generated, unique developers) |
+>>>>>>> 6571a18 (fix/homepage search redirect route)
 
 ---
 
@@ -128,7 +180,7 @@ No GitHub tokens are stored in the database; the session lives in a signed cooki
 git clone https://github.com/adrish-mage/devprint.git
 cd devprint
 npm install
-cp .env.example .env
+cp env.example .env
 node index.js
 ```
 
@@ -158,6 +210,7 @@ In Auth0, enable **GitHub as a social connection** and whitelist `http://localho
 
 ## Notable implementation details
 
+<<<<<<< HEAD
 - OAuth identity drives the card: `req.oidc.user.nickname` provides the GitHub username directly from the session, eliminating any username input for your own card.[web:1]  
 - `Promise.all` is used to fetch profile, repos, and the GraphQL contribution heatmap in parallel, reducing total latency compared to sequential calls.[web:1]  
 - A cache-aside layer in MongoDB with a 1‑hour TTL minimizes GitHub API usage for repeat and popular views.[web:1]  
@@ -165,6 +218,15 @@ In Auth0, enable **GitHub as a social connection** and whitelist `http://localho
 - GraphQL queries are parameterized: usernames are passed as variables instead of interpolating into the query string.  
 - Failed username searches fall back to the logged-in user’s own card with an inline error banner, never exposing raw errors.  
 - Global 404 and error middleware ensure unmatched routes and unhandled exceptions are rendered as styled error pages instead of the default Express stack trace.
+=======
+- OAuth identity drives the card — `req.oidc.user.nickname` gives the GitHub username directly from the session, no form needed
+- `Promise.all` for parallel API calls — profile, repos, and GraphQL heatmap all fetched simultaneously, not sequentially
+- Cache-aside layer in MongoDB — a 1hr TTL means repeat views and popular searches never re-hit GitHub's API
+- Language breakdown, stars, and heatmap all computed server-side from raw API responses — no client-side widget, no third-party dependency
+- Parameterized GraphQL queries — usernames are passed as query variables, not interpolated into the query string
+- Public search and public share links (`/search`, `/u/:username`) are fully separated from the authenticated dashboard (`/card`) — no auth wall on the lookup path
+- A global 404 handler and error middleware mean no unmatched route or unhandled exception ever reaches the client as a default Express page
+>>>>>>> 6571a18 (fix/homepage search redirect route)
 
 ---
 
@@ -177,9 +239,13 @@ In Auth0, enable **GitHub as a social connection** and whitelist `http://localho
 - [x] Route — Public profile (`/u/:username` shareable permalink without login)  
 
 **Persistence**
+<<<<<<< HEAD
 
 - [x] MongoDB — Cache layer (TTL-based caching to stay under unauthenticated rate limits)  
 - [ ] MongoDB — Saved profiles (persist and retrieve user cards from the database)  
+=======
+- [x] MongoDB — Persistent cache (TTL-checked cache layer that also serves as durable storage — refetch and retrieve share the same collection)
+>>>>>>> 6571a18 (fix/homepage search redirect route)
 
 **Production**
 
@@ -188,6 +254,8 @@ In Auth0, enable **GitHub as a social connection** and whitelist `http://localho
 - [ ] Logging — Structured request/error logging for observability and debugging  
 
 ---
+### Notes
+GitHub API calls use a single server-side PAT shared across all visitors (5,000 req/hr REST, separate GraphQL budget). Fine for demo traffic; a production version would need per-user tokens or rate-limiting middleware.
 
 ## Author & license
 
@@ -196,4 +264,8 @@ In Auth0, enable **GitHub as a social connection** and whitelist `http://localho
 
 Licensed under the MIT License.
 
+<<<<<<< HEAD
 ---
+=======
+*MIT*
+>>>>>>> 6571a18 (fix/homepage search redirect route)

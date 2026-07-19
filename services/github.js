@@ -54,7 +54,8 @@ async function fetchGitHubData(username){
     };
     const [profileRes, repoData, graphQL] = await Promise.all([
         axios.get(`https://api.github.com/users/${username}`, { headers }),
-        axios.get(`https://api.github.com/users/${username}/repos`, { headers }),
+        // capped at 100 repos - covers effectively all users, avoids full pagination complexity
+        axios.get(`https://api.github.com/users/${username}/repos?per_page=100`, { headers }),
         axios.post("https://api.github.com/graphql", buildQuery(username), { headers }),
     ]);
 
