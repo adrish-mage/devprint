@@ -160,14 +160,14 @@ border: 1.5px solid transparent;
 
 /* ============ ISSUE STRIP ============ */
 .issue-strip {
-  background: var(--cream);
+  background: var(--cream-dim);
   padding: 7px 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-family: var(--mono);
   font-size: 9px;
-  color: #444;
+  color: #bebebe;
   letter-spacing: 2px;
   text-transform: uppercase;
 }
@@ -1568,8 +1568,6 @@ border: 1.5px solid transparent;
   z-index: 1;
 }
 
-/* compact bordered card used inside hero-side, for either the search
-   form or the login-perks panel */
 .hero-card {
   border: 1px solid var(--border2);
   background: var(--card);
@@ -1597,9 +1595,7 @@ border: 1.5px solid transparent;
   .hero-text .hero-cta { justify-content: center; }
 }
 
-/* ══ Standalone perks strip (used when the search box takes the hero's
-   right column, so the login-perks panel becomes its own full-width
-   row instead) ══ */
+
 .perks-strip {
   border-top: 1px solid var(--border);
   padding: 48px 44px;
@@ -1663,9 +1659,6 @@ border: 1.5px solid transparent;
   .perks-grid { grid-template-columns: 1fr; }
 }
 
-/* ══ Standalone centered search section (used when the login-perks
-   panel takes the hero's right column, so search becomes its own
-   full-width, centered row instead) ══ */
 .search-standalone {
   border-top: 1px solid var(--border);
   padding: 64px 44px;
@@ -1693,8 +1686,6 @@ border: 1.5px solid transparent;
 
 .search-standalone .input-field { text-align: left; }
 
-/* ── fix: on short/narrow phones the search row (SEARCH | input | GENERATE)
-   was crammed right up to the edge — stack it instead of forcing one row ── */
 @media (max-width: 480px) {
   .search-standalone { padding: 48px 20px; }
   .hero-card { padding: 24px; }
@@ -1720,8 +1711,6 @@ border: 1.5px solid transparent;
   }
 }
 
-/* ══ Search bar sitting beside the "Find a Developer" heading,
-   instead of centered underneath it ══ */
 .search-inline {
   border-top: 1px solid var(--border);
   padding: 64px 44px;
@@ -1746,8 +1735,7 @@ border: 1.5px solid transparent;
   .search-inline { padding: 48px 20px; }
 }
 
-/* laptop and up only — make the search bar itself bigger, rest of the
-   breakpoints (tablet/mobile) stay exactly as they were */
+
 @media (min-width: 1024px) {
   .search-inline-inner { grid-template-columns: 1fr 850px; }
 
@@ -1774,9 +1762,6 @@ border: 1.5px solid transparent;
   }
 }
 
-/* ══ Narrow phones — the username text plus logout/back button no
-   longer fit next to the logo without wrapping or clipping, so drop
-   the username and keep just the action button(s) ══ */
 @media (max-width: 420px) {
   .nav { padding: 0 12px; }
   .nav-user { display: none; }
