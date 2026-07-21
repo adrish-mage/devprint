@@ -1,6 +1,6 @@
 <div align="center">
 
-# DevPrint  
+# DevPrint
 **Your GitHub identity, decoded.**
 
 [![Live](https://img.shields.io/badge/live-devprint.adrish.me-00e676?style=for-the-badge&color=lightgreen)](https://devprint.adrish.me/)
@@ -12,56 +12,22 @@
 
 ---
 
-DevPrint pulls your GitHub identity via OAuth, crunches your repo data server-side, and renders a developer card with no forms or manual input — you log in and your card is already there.[web:1]  
-You can also search and generate cards for any other GitHub user from the same page.[web:1]
-
-Language breakdown, star totals, and the contribution heatmap are all computed server-side from raw GitHub REST and GraphQL responses, then cached in MongoDB so repeat views don’t re-hit the API.[web:1]
-
----
 <img width="1891" height="718" alt="image" src="https://github.com/user-attachments/assets/283771a4-1169-4668-bb88-6beef4c602e3" />
 
 <img width="1895" height="572" alt="image" src="https://github.com/user-attachments/assets/1c092640-fab2-4f4a-80a5-3b85b398154b" />
 
 <img width="1901" height="922" alt="image" src="https://github.com/user-attachments/assets/0b34bff2-5c1b-4eb9-be05-4e35ee0cebcd" />
 
-## Table of contents
-
-- What DevPrint does  
-- Features  
-- Tech stack  
-- How it works  
-- Routes  
-- Local setup  
-- Configuration  
-- Notable implementation details  
-- Roadmap  
-- Author & license  
-
 ---
 
-<<<<<<< HEAD
-## What DevPrint does
-=======
 DevPrint pulls your GitHub identity through OAuth, crunches your repo data server-side, and spits out a developer card. No forms, no manual input — you log in and your card is already there. You can also search any other GitHub user from the homepage.
->>>>>>> 6571a18 (fix/homepage search redirect route)
 
-- Uses GitHub OAuth (via Auth0) to turn your GitHub account into a “DevPrint” card.  
-- Aggregates profile, repositories, stars, languages, and contribution activity into a single server-rendered view.  
-- Exposes public, shareable URLs for any generated card, including yours at `/u/your-username`.
+No stats widgets, no client-rendered dashboard. Language breakdown, star totals, and the contribution heatmap are all computed server-side from raw GitHub REST + GraphQL responses, then cached in MongoDB so repeat views don't re-hit the API.
 
 ---
 
 ## Features
 
-<<<<<<< HEAD
-- **GitHub OAuth login** — One-click login via Auth0 GitHub social connection; no separate account, forms, or passwords. Your GitHub identity *is* your DevPrint identity.  
-- **Instant card generation** — The moment you log in, your card is built from your session data. No configuration or onboarding flow.  
-- **Search any GitHub user** — Use the inline search to generate a card for any GitHub username; login is only required for your own card.  
-- **Public shareable links** — Logged-in users get a permanent card at `/u/your-username` that anyone can open, with no login required.  
-- **On-demand regeneration** — A **Regenerate** button re-fetches your data and busts the cache when your stats or activity change.  
-- **Server-side stats only** — Language breakdown, star totals, and the contribution heatmap are computed from raw REST + GraphQL data, not third-party widgets.  
-- **MongoDB caching** — A 1‑hour TTL cache in MongoDB ensures repeat views and popular searches avoid redundant GitHub API calls.  
-=======
 - **GitHub OAuth login** — one click via Auth0, no forms, no separate account, no password to manage. Your GitHub identity *is* your DevPrint identity.
 - **Instant card generation** — the moment you log in, your card is built from your session data. Nothing to configure.
 - **Search any GitHub user** — no login required. The homepage search bar looks anyone up and generates their card.
@@ -69,24 +35,11 @@ DevPrint pulls your GitHub identity through OAuth, crunches your repo data serve
 - **On-demand regeneration** — a "Regenerate" button re-fetches your data and busts the cache, if your stats have changed since the last fetch.
 - **Server-side stats, zero third-party widgets** — language breakdown, star totals, and the contribution heatmap are all computed from raw GitHub REST + GraphQL responses, not an embedded badge service.
 - **Cached, not re-fetched** — a 1hr TTL cache in MongoDB means repeat views and popular searches don't hit GitHub's API again.
->>>>>>> 6571a18 (fix/homepage search redirect route)
 
 ---
 
-## Tech stack
+## Stack
 
-<<<<<<< HEAD
-| Layer       | Tech                                                   |
-|------------|---------------------------------------------------------|
-| Runtime    | Node.js 20                                             |
-| Server     | Express 4                                              |
-| Templating | EJS                                                     |
-| Auth       | Auth0 · GitHub OAuth (OpenID Connect)                  |
-| Data       | GitHub REST API v3 + GraphQL v4                        |
-| Persistence| MongoDB (cache-aside, 1hr TTL)                         |
-| Deployment | Render + Namecheap domain                              |
-| Uptime     | UptimeRobot — pings `/healthz` every 14 minutes        |
-=======
 | Layer | Tech |
 |---|---|
 | Runtime | Node.js 20 |
@@ -97,26 +50,15 @@ DevPrint pulls your GitHub identity through OAuth, crunches your repo data serve
 | Persistence | MongoDB (cache-aside, 1hr TTL) |
 | Deployment | Render + Namecheap domain |
 | Uptime | UptimeRobot — pings `/healthz` every 14 min |
->>>>>>> 6571a18 (fix/homepage search redirect route)
 
-Auth0 handles token exchange, session management, and provider configuration, so the app logic focuses on GitHub data ingestion and card rendering.[web:1]  
-EJS is used instead of a frontend framework because the app does not require client-side state; server rendering keeps things simple and fast for this flow.[web:1]
+Auth0 handles the OAuth complexity (token exchange, session management, provider config) so the app logic stays focused on the GitHub data layer. EJS over a frontend framework — there's no client-side state to manage, server rendering is simpler and faster for this use case.
 
 ---
 
-## How it works
+```
+GET /          →  unauthenticated → landing
+               →  authenticated  → /card
 
-<<<<<<< HEAD
-```text
-GET /                    → unauthenticated → landing
-                         → authenticated  → /card
-
-GET /card                → pulls GitHub username from session (req.oidc.user.nickname)
-                         → cache check (MongoDB, 1hr TTL) → hit: return cached, miss: fetch
-                         → Promise.all: profile + repos + GraphQL heatmap fetched in parallel
-                         → language frequency computed server-side from raw repo objects
-                         → renders card.ejs with data + inline search form
-=======
 GET /search    →  public, no login required
                →  redirects to /u/:username
 
@@ -125,40 +67,21 @@ GET /card      →  pulls github username from session (req.oidc.user.nickname)
                →  Promise.all: profile + repos + GraphQL heatmap fetched in parallel
                →  language frequency computed server-side from raw repo objects
                →  renders card.ejs with data
->>>>>>> 6571a18 (fix/homepage search redirect route)
 
-GET /card?username=x     → same pipeline, different target
-                         → on failure: falls back to your own card with an inline
-                           error banner — never a raw error page
+GET /u/:username       →  public, no login required
+                       →  shareable permalink, same data pipeline as /card
 
-GET /u/:username         → public, no login required
-                         → shareable permalink, same data pipeline as /card
-
-*                        → unmatched routes and unhandled errors render a styled error page
-                           (404 for missing routes, 500 for real failures)
-                           — no default Express stack-trace pages reach the client
+*  →  unmatched routes and unhandled errors render a styled error page
+      (404 for missing routes, 500 for real failures) — no default Express
+      stack-trace pages reach the client
 ```
 
-Authentication is implemented with `express-openid-connect`, using the GitHub identity from the Auth0 session token.[web:1]  
-No GitHub tokens are stored in the database; the session lives in a signed cookie managed by Auth0’s SDK.[web:1]
+Auth is handled by `express-openid-connect`. Username comes straight from the OAuth session token — no user input needed for your own card. No tokens stored; session lives in a signed cookie.
 
 ---
 
 ## Routes
 
-<<<<<<< HEAD
-| Route                  | Auth | Description                                                                                   |
-|------------------------|------|-----------------------------------------------------------------------------------------------|
-| `GET /`               | —    | Landing page; redirects to `/card` if logged in                                              |
-| `GET /login`          | —    | Starts the GitHub OAuth flow via Auth0                                                       |
-| `GET /callback`       | —    | Auth0 OAuth callback endpoint                                                                |
-| `GET /logout`         | ✓    | Logs out and clears the session                                                              |
-| `GET /card`           | ✓    | Your card, auto-generated from the OAuth session                                             |
-| `GET /card?username=x`| ✓    | Card for any GitHub username; falls back to your own card with an inline error on failure   |
-| `GET /u/:username`    | —    | Public shareable card (no login required)                                                    |
-| `GET /healthz`        | —    | JSON status + uptime for health checks                                                       |
-| `GET /stats`          | —    | Global usage counters (total cards generated, unique developers)                             |
-=======
 | Route | Auth | |
 |---|---|---|
 | `GET /` | — | Landing — redirects to `/card` if logged in |
@@ -170,7 +93,6 @@ No GitHub tokens are stored in the database; the session lives in a signed cooki
 | `GET /u/:username` | — | Public shareable card, no login required |
 | `GET /healthz` | — | JSON status + uptime (keep-alive target) |
 | `GET /stats` | — | Global usage counters (total cards generated, unique developers) |
->>>>>>> 6571a18 (fix/homepage search redirect route)
 
 ---
 
@@ -184,11 +106,7 @@ cp env.example .env
 node index.js
 ```
 
----
-
-## Configuration
-
-Create a `.env` file from `.env.example` and fill in the values:
+`.env`:
 
 ```env
 AUTH0_SECRET=           # openssl rand -hex 32
@@ -204,21 +122,12 @@ MONGO_URI=              # MongoDB connection string, e.g. mongodb+srv://user:pas
 PORT=3000
 ```
 
-In Auth0, enable **GitHub as a social connection** and whitelist `http://localhost:3000/callback` as an allowed callback URL.[web:1]
+Auth0 needs **GitHub as a social connection** and `http://localhost:3000/callback` whitelisted.
 
 ---
 
-## Notable implementation details
+## What's notable
 
-<<<<<<< HEAD
-- OAuth identity drives the card: `req.oidc.user.nickname` provides the GitHub username directly from the session, eliminating any username input for your own card.[web:1]  
-- `Promise.all` is used to fetch profile, repos, and the GraphQL contribution heatmap in parallel, reducing total latency compared to sequential calls.[web:1]  
-- A cache-aside layer in MongoDB with a 1‑hour TTL minimizes GitHub API usage for repeat and popular views.[web:1]  
-- Language breakdown, star totals, and heatmap data are computed server-side from raw REST and GraphQL responses, avoiding client widgets or external stats services.[web:1]  
-- GraphQL queries are parameterized: usernames are passed as variables instead of interpolating into the query string.  
-- Failed username searches fall back to the logged-in user’s own card with an inline error banner, never exposing raw errors.  
-- Global 404 and error middleware ensure unmatched routes and unhandled exceptions are rendered as styled error pages instead of the default Express stack trace.
-=======
 - OAuth identity drives the card — `req.oidc.user.nickname` gives the GitHub username directly from the session, no form needed
 - `Promise.all` for parallel API calls — profile, repos, and GraphQL heatmap all fetched simultaneously, not sequentially
 - Cache-aside layer in MongoDB — a 1hr TTL means repeat views and popular searches never re-hit GitHub's API
@@ -226,46 +135,33 @@ In Auth0, enable **GitHub as a social connection** and whitelist `http://localho
 - Parameterized GraphQL queries — usernames are passed as query variables, not interpolated into the query string
 - Public search and public share links (`/search`, `/u/:username`) are fully separated from the authenticated dashboard (`/card`) — no auth wall on the lookup path
 - A global 404 handler and error middleware mean no unmatched route or unhandled exception ever reaches the client as a default Express page
->>>>>>> 6571a18 (fix/homepage search redirect route)
 
 ---
 
 ## Roadmap
 
-**API & data**
-
-- [x] GraphQL — Contribution heatmap via GitHub GraphQL API  
-- [x] REST — Additional stats tiles from GitHub REST endpoints  
-- [x] Route — Public profile (`/u/:username` shareable permalink without login)  
+**API & Data**
+- [x] GraphQL — Heatmap (contribution graph via GitHub's GraphQL API)
+- [x] REST — Stats tiles (additional stat blocks from REST endpoints)
+- [x] Route — Public profile (`/u/:username` shareable permalink without login)
 
 **Persistence**
-<<<<<<< HEAD
-
-- [x] MongoDB — Cache layer (TTL-based caching to stay under unauthenticated rate limits)  
-- [ ] MongoDB — Saved profiles (persist and retrieve user cards from the database)  
-=======
 - [x] MongoDB — Persistent cache (TTL-checked cache layer that also serves as durable storage — refetch and retrieve share the same collection)
->>>>>>> 6571a18 (fix/homepage search redirect route)
 
 **Production**
-
-- [x] Error handling — 404 + global error middleware; inline fallback for failed searches  
-- [ ] Rate limiting — Per-IP throttling to protect GitHub’s APIs  
-- [ ] Logging — Structured request/error logging for observability and debugging  
+- [x] Prod — Error handler (404 + global error middleware, inline fallback for failed searches)
+- [ ] Prod — Rate limiting (per-IP throttling to protect the API)
+- [ ] Prod — Logging (structured request/error logging for observability)
 
 ---
 ### Notes
 GitHub API calls use a single server-side PAT shared across all visitors (5,000 req/hr REST, separate GraphQL budget). Fine for demo traffic; a production version would need per-user tokens or rate-limiting middleware.
 
-## Author & license
+## Author
 
-**Adrish Dey** — IT, Calcutta University  
+**Adrish Dey** — IT, Calcutta University
 [github.com/adrish-mage](https://github.com/adrish-mage) · [linkedin.com/in/adrish](https://www.linkedin.com/in/adrish-dey-6b2286385/)
 
-Licensed under the MIT License.
-
-<<<<<<< HEAD
 ---
-=======
+
 *MIT*
->>>>>>> 6571a18 (fix/homepage search redirect route)
