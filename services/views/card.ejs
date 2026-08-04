@@ -1,25 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevPrint — <%= github.login %></title>
-    <link rel="stylesheet" href="/style.css">
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-</head>
-<body>
-
-<nav class="nav">
-    <a href="/" class="nav-logo">DEV<span>PRINT</span></a>
-    <span class="nav-tagline">the developer's mirror</span>
-    <div class="nav-actions">
-        <% if (!isOwnCard) { %>
-            <a href="/card" class="btn-sm">← my card</a>
-        <% } %>
-        <span class="nav-user"><%= loggedInUser %></span>
-        <a href="/logout" class="btn-sm">logout</a>
-    </div>
-</nav>
+<% layout('layouts/boilerplate') -%>
+<% title = `DevPrint | ${github.login}` %>
 
 <div class="card-page-wrap">
 <div class="card-page-body">
@@ -161,12 +141,3 @@
     
 
 </div>
-
-<div class="status-bar">
-    <span><span class="status-dot"></span>CARD GENERATED · <%= github.login %></span>
-    <span>DEVPRINT · GITHUB API · LIVE</span>
-</div>
-</div>
-
-</body>
-</html>

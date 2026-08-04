@@ -1,33 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevPrint — <%= message %></title>
-    <link rel="stylesheet" href="/style.css">
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-</head>
-<body>
-
-<nav class="nav">
-    <a href="/" class="nav-logo">DEV<span>PRINT</span></a>
-    <span class="nav-tagline">the developer's mirror</span>
-</nav>
+<% layout('layouts/boilerplate') -%>
+<% title = title || 'Error' %>
 
 <div class="card-page-wrap">
 <div class="card-page-body">
     <div class="card-hero">
         <div class="card-hero-left">
-            <div class="card-hero-eyebrow">Something went sideways</div>
+            <div class="card-hero-eyebrow">Error</div>
         </div>
     </div>
 
-    <div class="dev-card" style="text-align:center; padding: 48px 24px;">
-        <p class="card-bio" style="font-size: 1.1rem;"><%= message %></p>
-        <a href="/" class="btn-export" style="display:inline-block; margin-top: 20px;">← back home</a>
+    <div class="dev-card" style="text-align:center; padding: 48px 32px;">
+        <div class="error-panel">
+            <div class="error-status"><%= status || 500 %></div>
+            <h1 class="error-title"><%= title || 'Something went wrong' %></h1>
+            <p class="card-bio" style="font-size: 1.1rem; max-width: 680px; margin: 0 auto 20px;"><%= message %></p>
+            <div class="error-actions">
+                <a href="<%= backUrl || '/' %>" class="btn btn-primary">Back to home</a>
+                &nbsp;&nbsp;
+                <% if (retryUrl) { %>
+                    <a href="<%= retryUrl %>" class="btn btn-ghost">Try again</a>
+                <% } %>
+            </div>
+            
+            
+        </div>
     </div>
 </div>
 </div>
-
-</body>
-</html>

@@ -9,7 +9,7 @@ router.get("/search",(req,res) => {
     }
     res.redirect(`/u/${encodeURIComponent(username)}`);
 })
-router.get("/u/:username", async (req, res) => {
+router.get("/u/:username", async (req, res, next) => {
     const viewerLoggedIn = req.oidc.isAuthenticated();
     const loggedInUser = viewerLoggedIn ? req.oidc.user?.nickname : null;
     const isOwnCard = viewerLoggedIn && loggedInUser?.toLowerCase() === req.params.username?.toLowerCase();
@@ -36,8 +36,8 @@ router.get("/u/:username", async (req, res) => {
             nickname: req.params.username
         });
     } catch (err) {
-        console.error('Share route error:', err.message);
-        res.redirect(`/?error=${encodeURIComponent(req.params.username)}`);
+        console.error('Share route error:', err.stack || err.message);
+        next(err);
     }
 });
 

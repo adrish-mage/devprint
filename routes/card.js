@@ -25,7 +25,7 @@ function buildCardPayload({ data, loggedInUser, isOwnCard, searchError, nickname
     };
 }
 
-router.get("/card", requiresAuth(), async (req, res) => {
+router.get("/card", requiresAuth(), async (req, res, next) => {
     const loggedInUser = req.oidc.user?.nickname;
     const username = req.query.username || loggedInUser;
     try {
@@ -38,11 +38,9 @@ router.get("/card", requiresAuth(), async (req, res) => {
             nickname: loggedInUser
         }));
     } catch (err) {
-        console.error('Card route error:', err);
+        console.error('Card route error:', err.stack || err.message);
 
-        // if a searched username failed, fall back to the logged-in user's own
-        // card with an inline error instead of dumping the raw error to the page
-        if (req.query.username) {
+        if (req.query.username && err.status === 404) {
             try {
                 const ownDoc = await getGithubData(loggedInUser);
                 return res.render("card", buildCardPayload({
@@ -53,12 +51,12 @@ router.get("/card", requiresAuth(), async (req, res) => {
                     nickname: loggedInUser
                 }));
             } catch (innerErr) {
-                console.error('Fallback to own card also failed:', innerErr.message);
+                console.error('Fallback to own card also failed:', innerErr.stack || innerErr.message);
+                return next(innerErr);
             }
         }
 
-        // own card itself failed (rare) — only case that gets a real error page
-        res.status(500).render("error", { message: "Something went wrong loading your card." });
+        next(err);
     }
 });
 

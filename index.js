@@ -8,6 +8,13 @@ const mongoose = require("mongoose");
 const port = process.env.PORT || 3000;
 const app = express();
 
+class HttpError extends Error {
+  constructor(status, message) {
+    super(message);
+    this.status = status;
+  }
+}
+
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {
         console.log("MongoDB connected successfully")
@@ -25,6 +32,7 @@ app.use(auth({
     clientID: process.env.AUTH0_CLIENT_ID,
     issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,  
 }));
+app.engine('ejs', require('ejs-mate'));
 app.set('view engine', "ejs");
 app.set("views", path.join(__dirname, "/services/views"));
 app.use(express.static(path.join(__dirname, "public")));
@@ -55,15 +63,27 @@ app.get("/stats", async (req, res) => {
     res.json({ totalCards, uniqueDevelopers });
 });
 
-// 404 — must come after all real routes above
-app.use((req, res) => {
-    res.status(404).render("error", { message: "Page not found." });
+
+app.use((req, res, next) => {
+    next(new HttpError(404, "Page not found."));
 });
 
-// global error handler — must be last, must keep all 4 args or Express won't treat it as an error handler
 app.use((err, req, res, next) => {
-    console.error("Unhandled error:", err);
-    res.status(500).render("error", { message: "Something went wrong." });
+    if (res.headersSent) {
+        return next(err);
+    }
+
+    const status = err.status || err.statusCode || 500;
+    console.error(`Error ${status} on ${req.method} ${req.originalUrl}:`, err.stack || err.message);
+
+    res.status(status).render("error", {
+        title: status === 404 ? "Page not found" : "Something went wrong",
+        message: err.message || "Unexpected server error.",
+        status,
+        backUrl: "/",
+        retryUrl: req.method === "GET" ? req.originalUrl : undefined,
+        details: process.env.NODE_ENV !== "production" ? err.stack : null
+    });
 });
 
 app.listen(port, () => {

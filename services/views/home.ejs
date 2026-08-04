@@ -1,196 +1,179 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevPrint — Your GitHub, Decoded</title>
-    <link rel="stylesheet" href="/style.css">
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-</head>
-<body>
+﻿<% layout('layouts/boilerplate') -%>
+    <% title='DevPrint | Home' %>
 
-<!-- NAV -->
-<nav class="nav">
-    <a href="/" class="nav-logo">DEV<span>PRINT</span></a>
-    <span class="nav-tagline">A developer's mirror</span>
-    <div class="nav-actions">
-        <a href="/login" class="btn btn-accent">
-            <span class="btn-icon" aria-hidden="true">
-                <svg viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.54 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.7 7.7 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15 .46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
-                </svg>
-            </span>
-            Login with GitHub
-        </a>
-    </div>
-</nav>
+        <div class="home-wrap">
 
-<div class="home-wrap">
-
-    <!-- HERO — split: headline left, login-perks panel right -->
-    <section class="hero-split">
-        <div class="hero-text">
-            <h1 class="hero-h1">Your GitHub,</h1>
-            <span class="hero-h1-outline">decoded.</span>
-            <p class="hero-sub">Log in with GitHub. Your developer card generates instantly — no setup, no typing.</p>
-            <div class="hero-cta">
-                <a href="/login" class="btn btn-primary">See your card →</a>
-                <a href="#how-it-works" class="btn btn-ghost">see how it works</a>
-            </div>
-        </div>
-        <div class="hero-side">
-            <div class="hero-card">
-                <div class="panel-head">Log in to —</div>
-                <div class="panel-rule"></div>
-                <div class="panel-item">Claim a permanent link at /u/your-username <span class="panel-arrow">→</span></div>
-                <div class="panel-item">Regenerate your card on demand <span class="panel-arrow">→</span></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ══ SEARCH — bar sits beside the heading ══ -->
-    <section class="search-inline" id="search">
-        <div class="search-inline-inner">
-            <div class="search-inline-left">
-                <h2 class="search-h1">Find a</h2>
-                <span class="search-h1-accent">Developer.</span>
-                <p class="search-sub">Enter a GitHub username to generate their developer card.</p>
-            </div>
-            <div class="search-inline-right">
-                <form action="/search" method="GET">
-                    <div class="input-field">
-                        <span class="input-slash">SEARCH</span>
-                        <input name="username" placeholder="github username…" autocomplete="off" />
-                        <button type="submit" class="input-submit">GENERATE →</button>
-                    </div>
-                    <div class="input-hint">press enter or click generate</div>
-                    <% if (locals.searchError) { %>
-                    <div class="error-box">⚠ User "<%= searchError %>" not found</div>
-                    <% } %>
-                </form>
-            </div>
-        </div>
-    </section>
-    <!-- ══ ROADMAP / HOW IT WORKS ══ -->
-    <section class="roadmap" id="how-it-works">
-        <div class="roadmap-inner">
-
-            <div class="roadmap-head">
-                <span class="roadmap-eyebrow">How it works</span>
-                <h2 class="roadmap-h1">From login to <span class="roadmap-h1-accent">live card.</span></h2>
-                <p class="roadmap-sub">Four steps, no config. Logging in unlocks the full experience - a permanent link, on-demand regen, a higher API limit. Searching still works if you just want to look someone up.</p>
-            </div>
-
-            <div class="roadmap-body">
-
-                <ol class="roadmap-steps">
-                    <li class="roadmap-step">
-                        <div class="roadmap-step-num">01</div>
-                        <div class="roadmap-step-content">
-                            <div class="roadmap-step-title">Login with GitHub</div>
-                            <p class="roadmap-step-desc">One-click OAuth. No forms, no password — just your GitHub identity.</p>
-                        </div>
-                    </li>
-                    <li class="roadmap-step">
-                        <div class="roadmap-step-num">02</div>
-                        <div class="roadmap-step-content">
-                            <div class="roadmap-step-title">Your card generates instantly</div>
-                            <p class="roadmap-step-desc">Stats, top languages, and contribution heatmap pulled live from the GitHub API.</p>
-                        </div>
-                    </li>
-                    <li class="roadmap-step">
-                        <div class="roadmap-step-num">03</div>
-                        <div class="roadmap-step-content">
-                            <div class="roadmap-step-title">Claim your permanent link</div>
-                            <p class="roadmap-step-desc">Logged-in users get a shareable URL at <code>/u/your-username</code>, plus on-demand regeneration and a higher GitHub API rate limit.</p>
-                        </div>
-                    </li>
-                    <li class="roadmap-step">
-                        <div class="roadmap-step-num">04</div>
-                        <div class="roadmap-step-content">
-                            <div class="roadmap-step-title">Or just explore any dev</div>
-                            <p class="roadmap-step-desc">Not ready to log in? Search any GitHub username above and generate their card too — no account needed.</p>
-                        </div>
-                    </li>
-                </ol>
-
-                <!-- Example card — fictional demo profile, hardcoded, not a live /u/:username fetch -->
-                <div class="roadmap-demo">
-                    <div class="roadmap-demo-label">Example card</div>
-                    <div class="demo-card">
-                        <div class="demo-card-top">
-                            <img class="demo-card-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=devprint-demo-nova&backgroundColor=111114" alt="demo avatar" />
-                            <div>
-                                <div class="demo-card-name">Nova Reyes</div>
-                                <div class="demo-card-handle">@novareyes-dev</div>
-                            </div>
-                        </div>
-                        <p class="demo-card-bio">Builds developer tools by day, breaks them by night.</p>
-
-                        <div class="demo-card-stats">
-                            <div class="demo-stat">
-                                <span class="demo-stat-val">63</span>
-                                <span class="demo-stat-key">repos</span>
-                            </div>
-                            <div class="demo-stat">
-                                <span class="demo-stat-val">482</span>
-                                <span class="demo-stat-key">followers</span>
-                            </div>
-                            <div class="demo-stat">
-                                <span class="demo-stat-val">1.2k</span>
-                                <span class="demo-stat-key">stars</span>
-                            </div>
-                        </div>
-
-                        <div class="demo-card-langs">
-                            <div class="demo-lang-row">
-                                <span class="demo-lang-name">TypeScript</span>
-                                <div class="demo-lang-track"><div class="demo-lang-fill" style="width:82%"></div></div>
-                            </div>
-                            <div class="demo-lang-row">
-                                <span class="demo-lang-name">Python</span>
-                                <div class="demo-lang-track"><div class="demo-lang-fill" style="width:61%"></div></div>
-                            </div>
-                            <div class="demo-lang-row">
-                                <span class="demo-lang-name">Rust</span>
-                                <div class="demo-lang-track"><div class="demo-lang-fill" style="width:34%"></div></div>
-                            </div>
-                        </div>
-
-                        <div class="demo-card-heatmap">
-                            <%
-                                // Hardcoded fictional contribution pattern — purely decorative, not live data.
-                                const demoHeatmap = [
-                                  'off','dim','mid','off','bright','mid','dim','off','mid','bright','dim','off','mid','mid','off','dim',
-                                  'dim','mid','bright','dim','off','mid','mid','dim','bright','off','dim','mid','off','bright','mid','dim',
-                                  'off','mid','dim','bright','mid','off','dim','mid','off','bright','dim','mid','off','dim','bright','mid'
-                                ];
-                                demoHeatmap.forEach(level => {
-                            %>
-                            <div class="demo-cell <%= level %>"></div>
-                            <% }) %>
-                        </div>
-
-                        <div class="demo-card-tag">Fictional demo · not a live profile</div>
+            <!-- HERO — split: headline left, login-perks panel right -->
+            <section class="hero-split">
+                <div class="hero-text">
+                    <h1 class="hero-h1">Your GitHub,</h1>
+                    <span class="hero-h1-outline">decoded.</span>
+                    <p class="hero-sub">Log in with GitHub. Your developer card generates instantly — no setup, no
+                        typing.</p>
+                    <div class="hero-cta">
+                        <a href="/login" class="btn btn-primary">See your card →</a>
+                        <a href="#how-it-works" class="btn btn-ghost">see how it works</a>
                     </div>
                 </div>
+                <div class="hero-side">
+                    <div class="hero-card">
+                        <div class="panel-head">Log in to —</div>
+                        <div class="panel-rule"></div>
+                        <div class="panel-item">Claim a permanent link at /u/your-username <span
+                                class="panel-arrow">→</span></div>
+                        <div class="panel-item">Regenerate your card on demand <span class="panel-arrow">→</span></div>
+                    </div>
+                </div>
+            </section>
 
-            </div>
+            <!-- ══ SEARCH — bar sits beside the heading ══ -->
+            <section class="search-inline" id="search">
+                <div class="search-inline-inner">
+                    <div class="search-inline-left">
+                        <h2 class="search-h1">Find a</h2>
+                        <span class="search-h1-accent">Developer.</span>
+                        <p class="search-sub">Enter a GitHub username to generate their developer card.</p>
+                    </div>
+                    <div class="search-inline-right">
+                        <form action="/search" method="GET">
+                            <div class="input-field">
+                                <span class="input-slash">SEARCH</span>
+                                <input name="username" placeholder="github username…" autocomplete="off" />
+                                <button type="submit" class="input-submit">GENERATE →</button>
+                            </div>
+                            <div class="input-hint">press enter or click generate</div>
+                            <% if (locals.searchError) { %>
+                                <div class="error-box">⚠ User "<%= searchError %>" not found</div>
+                                <% } %>
+                        </form>
+                    </div>
+                </div>
+            </section>
+            <!-- ══ ROADMAP / HOW IT WORKS ══ -->
+            <section class="roadmap" id="how-it-works">
+                <div class="roadmap-inner">
 
-            <div class="roadmap-cta">
-                <a href="/login" class="btn btn-primary">Login with GitHub →</a>
-                <a href="#search" class="btn btn-ghost">or just search a username</a>
-            </div>
+                    <div class="roadmap-head">
+                        <span class="roadmap-eyebrow">How it works</span>
+                        <h2 class="roadmap-h1">From login to <span class="roadmap-h1-accent">live card.</span></h2>
+                        <p class="roadmap-sub">Four steps, no config. Logging in unlocks the full experience - a
+                            permanent link, on-demand regen, a higher API limit. Searching still works if you just want
+                            to look someone up.</p>
+                    </div>
+
+                    <div class="roadmap-body">
+
+                        <ol class="roadmap-steps">
+                            <li class="roadmap-step">
+                                <div class="roadmap-step-num">01</div>
+                                <div class="roadmap-step-content">
+                                    <div class="roadmap-step-title">Login with GitHub</div>
+                                    <p class="roadmap-step-desc">One-click OAuth. No forms, no password — just your
+                                        GitHub identity.</p>
+                                </div>
+                            </li>
+                            <li class="roadmap-step">
+                                <div class="roadmap-step-num">02</div>
+                                <div class="roadmap-step-content">
+                                    <div class="roadmap-step-title">Your card generates instantly</div>
+                                    <p class="roadmap-step-desc">Stats, top languages, and contribution heatmap pulled
+                                        live from the GitHub API.</p>
+                                </div>
+                            </li>
+                            <li class="roadmap-step">
+                                <div class="roadmap-step-num">03</div>
+                                <div class="roadmap-step-content">
+                                    <div class="roadmap-step-title">Claim your permanent link</div>
+                                    <p class="roadmap-step-desc">Logged-in users get a shareable URL at
+                                        <code>/u/your-username</code>, plus on-demand regeneration and a higher GitHub
+                                        API rate limit.</p>
+                                </div>
+                            </li>
+                            <li class="roadmap-step">
+                                <div class="roadmap-step-num">04</div>
+                                <div class="roadmap-step-content">
+                                    <div class="roadmap-step-title">Or just explore any dev</div>
+                                    <p class="roadmap-step-desc">Not ready to log in? Search any GitHub username above
+                                        and generate their card too — no account needed.</p>
+                                </div>
+                            </li>
+                        </ol>
+
+                        <!-- Example card — fictional demo profile, hardcoded, not a live /u/:username fetch -->
+                        <div class="roadmap-demo">
+                            <div class="roadmap-demo-label">Example card</div>
+                            <div class="demo-card">
+                                <div class="demo-card-top">
+                                    <img class="demo-card-avatar"
+                                        src="https://api.dicebear.com/7.x/bottts/svg?seed=devprint-demo-nova&backgroundColor=111114"
+                                        alt="demo avatar" />
+                                    <div>
+                                        <div class="demo-card-name">Nova Reyes</div>
+                                        <div class="demo-card-handle">@novareyes-dev</div>
+                                    </div>
+                                </div>
+                                <p class="demo-card-bio">Builds developer tools by day, breaks them by night.</p>
+
+                                <div class="demo-card-stats">
+                                    <div class="demo-stat">
+                                        <span class="demo-stat-val">63</span>
+                                        <span class="demo-stat-key">repos</span>
+                                    </div>
+                                    <div class="demo-stat">
+                                        <span class="demo-stat-val">482</span>
+                                        <span class="demo-stat-key">followers</span>
+                                    </div>
+                                    <div class="demo-stat">
+                                        <span class="demo-stat-val">1.2k</span>
+                                        <span class="demo-stat-key">stars</span>
+                                    </div>
+                                </div>
+
+                                <div class="demo-card-langs">
+                                    <div class="demo-lang-row">
+                                        <span class="demo-lang-name">TypeScript</span>
+                                        <div class="demo-lang-track">
+                                            <div class="demo-lang-fill" style="width:82%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="demo-lang-row">
+                                        <span class="demo-lang-name">Python</span>
+                                        <div class="demo-lang-track">
+                                            <div class="demo-lang-fill" style="width:61%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="demo-lang-row">
+                                        <span class="demo-lang-name">Rust</span>
+                                        <div class="demo-lang-track">
+                                            <div class="demo-lang-fill" style="width:34%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="demo-card-heatmap">
+                                    <% const demoHeatmap=[ 'off'
+                                        ,'dim','mid','off','bright','mid','dim','off','mid','bright','dim','off','mid','mid','off','dim', 'dim'
+                                        ,'mid','bright','dim','off','mid','mid','dim','bright','off','dim','mid','off','bright','mid','dim', 'off'
+                                        ,'mid','dim','bright','mid','off','dim','mid','off','bright','dim','mid','off','dim','bright','mid'
+                                        ]; demoHeatmap.forEach(level=> {
+                                        %>
+                                        <div class="demo-cell <%= level %>"></div>
+                                        <% }) %>
+                                </div>
+
+                                <div class="demo-card-tag">Fictional demo · not a live profile</div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="roadmap-cta">
+                        <a href="/login" class="btn btn-primary">Login with GitHub →</a>
+                        <a href="#search" class="btn btn-ghost">or just search a username</a>
+                    </div>
+
+                </div>
+            </section>
+            <!-- BOTTOM STRIP -->
 
         </div>
-    </section>
-    <!-- BOTTOM STRIP -->
-<div class="issue-strip">
-    <span>DEVPRINT · Decode your github</span>
-    <span>Built by <a href="https://github.com/adrish-mage" target="_blank" class="strip-link">@adrish-mage</a> </span>
-    <span>© 2026</span>
-</div>
-</div>
-
-</body>
-</html>
