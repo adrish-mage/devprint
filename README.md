@@ -10,6 +10,15 @@
 
 </div>
 
+<div align="center">
+
+## Live Demo
+
+https://github.com/user-attachments/assets/e3f20649-90c0-4dd9-936f-b8dc0375176e
+
+</div>
+
+
 ---
 
 <img width="1891" height="718" alt="image" src="https://github.com/user-attachments/assets/283771a4-1169-4668-bb88-6beef4c602e3" />
@@ -20,7 +29,8 @@
 
 ---
 
-DevPrint pulls your GitHub identity through OAuth, crunches your repo data server-side, and spits out a developer card. No forms, no manual input — you log in and your card is already there. You can also search any other GitHub user from the homepage.
+DevPrint ( <i>beta</i> )
+pulls your GitHub identity through OAuth, crunches your repo data server-side, and spits out a developer card. No forms, no manual input — you log in and your card is already there. You can also search any other GitHub user from the homepage.
 
 No stats widgets, no client-rendered dashboard. Language breakdown, star totals, and the contribution heatmap are all computed server-side from raw GitHub REST + GraphQL responses, then cached in MongoDB so repeat views don't re-hit the API.
 
