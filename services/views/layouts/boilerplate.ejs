@@ -3,6 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta property="og:title" content="<%= title || 'DevPrint' %>">
+    <meta property="og:description" content="<%= ogDescription || 'Github Card generator'%>">
+    <meta property="og:image" content="<%= ogImage %>">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<%= title || 'DevPrint' %>">
+    <meta name="twitter:description" content="<%= ogDescription || 'DevPrint' %>">
+    <meta name="twitter:image" content="<%= ogImage || '' %>">
+
     <link rel="stylesheet" href="/style.css">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <title><%= title || 'DevPrint' %></title>

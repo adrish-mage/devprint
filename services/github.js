@@ -24,7 +24,7 @@ const buildQuery = (login) => ({
             }
             repositories(first: 100, ownerAffiliations: OWNER) {
                 nodes {
-                    languages(first: 5, orderBy: {field: SIZE, direction: DESC}) {
+                    languages(first: 100, orderBy: {field: SIZE, direction: DESC}) {
                         edges {
                             size
                             node { name }
@@ -40,7 +40,7 @@ const buildQuery = (login) => ({
 const parseLangs = (repoNodes) => {
     const langCount = {};
     repoNodes.forEach(repo => {
-        repo.languages.edges.forEach(edge => {
+        if (!repo.languages || !repo.languages.edges) return; repo.languages.edges.forEach(edge => {
             const lang = edge.node.name;
             langCount[lang] = (langCount[lang] || 0) + edge.size;
         });
