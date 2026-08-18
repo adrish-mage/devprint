@@ -30,8 +30,9 @@ app.use(auth({
     secret: process.env.AUTH0_SECRET,
     baseURL: process.env.AUTH0_BASE_URL,
     clientID: process.env.AUTH0_CLIENT_ID,
-    issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,  
+    issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,   
 }));
+
 app.engine('ejs', require('ejs-mate'));
 app.set('view engine', "ejs");
 app.set("views", path.join(__dirname, "/services/views"));
@@ -44,7 +45,7 @@ app.get('/healthz', (req, res) => {
         timestamp: new Date().toISOString()
     });
 });
-// home — redirect to card if logged in
+// default route — redirect to card if logged in
 app.get("/", (req, res) => {
     if (req.oidc.isAuthenticated()) {
         res.redirect('/card');
@@ -52,6 +53,10 @@ app.get("/", (req, res) => {
         res.render('home',{ searchError: req.query.error || null });
     }
 });
+// home route 
+app.get("/home",(req,res)=>{
+    res.render('home.ejs');
+})
 // card — own card if no ?username, else look up that user
 app.use(require('./routes/card'));
 // shareable card / card visible to un-logged in users too
