@@ -1,5 +1,7 @@
 <% layout('layouts/boilerplate') -%>
-<% title = `DevPrint | ${github.login}` %>
+<% locals.title = `DevPrint | ${github.login}` %>
+<% locals.ogDescription = github.bio || `Check out ${github.login}'s DevPrint developer card` %>
+<% locals.ogImage = github.avatar_url %>
 
 <div class="card-page-wrap">
 <div class="card-page-body">
@@ -92,9 +94,10 @@
                 <a class="promo" href="/" target="_blank">Create your devprint ↗</a>    
             </div>  
         </div>
-            
 
-        </div>
+    </div>
+</div>
+</div>
 
 
    
