@@ -13,11 +13,12 @@
   "type": "commonjs",
   "dependencies": {
     "axios": "^1.15.0",
-    "ejs-mate": "^4.0.0",
     "dotenv": "^17.4.2",
     "ejs": "^5.0.2",
+    "ejs-mate": "^4.0.0",
     "express": "^5.2.1",
     "express-openid-connect": "^2.20.1",
+    "express-rate-limit": "^8.6.2",
     "mongoose": "^9.6.3"
   },
   "devDependencies": {
