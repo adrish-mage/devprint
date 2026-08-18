@@ -1,15 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const { getGithubData } = require('../services/github');
+const { searchLimiter, profileLimiter } = require("../middlewares/rateLimiter");
 
-router.get("/search",(req,res) => {
+router.get("/search", searchLimiter, (req, res) => {
     const username = req.query.username?.trim();
-    if(!username) {
+    if (!username) {
         return res.redirect('/');
     }
     res.redirect(`/u/${encodeURIComponent(username)}`);
 })
-router.get("/u/:username", async (req, res, next) => {
+router.get("/u/:username",profileLimiter, async (req, res, next) => {
     const viewerLoggedIn = req.oidc.isAuthenticated();
     const loggedInUser = viewerLoggedIn ? req.oidc.user?.nickname : null;
     const isOwnCard = viewerLoggedIn && loggedInUser?.toLowerCase() === req.params.username?.toLowerCase();

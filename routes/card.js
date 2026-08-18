@@ -60,15 +60,15 @@ router.get("/card", requiresAuth(), async (req, res, next) => {
     }
 });
 
-router.post("/card/refresh", requiresAuth(), async(req,res) => {
+router.post("/card/refresh", requiresAuth(), async (req, res) => {
     const username = req.oidc.user?.nickname;
-    try{
-        await Profile.deleteOne({username});
+    try {
+        await Profile.deleteOne({ username });
         await getGithubData(username);
-    }catch(err) {
-        console.error("Refresh Error",err.message);
+    } catch (err) {
+        console.error("Refresh Error", err.message);
     }
-    res.redirect(`/card`);    
+    res.redirect(`/card`);
 
 })
 module.exports = router;

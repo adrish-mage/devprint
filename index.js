@@ -1,18 +1,19 @@
 const express = require("express");
 const path = require("path");
-const { auth } = require("express-openid-connect"); 
+const { auth } = require("express-openid-connect");
 const Profile = require("./models/profile");
 const Counter = require("./models/counter");
 require("dotenv").config();
 const mongoose = require("mongoose");
+const rateLimit = require("express-rate-limit");
 const port = process.env.PORT || 3000;
 const app = express();
 
 class HttpError extends Error {
-  constructor(status, message) {
-    super(message);
-    this.status = status;
-  }
+    constructor(status, message) {
+        super(message);
+        this.status = status;
+    }
 }
 
 mongoose.connect(process.env.MONGO_URI)
@@ -30,13 +31,14 @@ app.use(auth({
     secret: process.env.AUTH0_SECRET,
     baseURL: process.env.AUTH0_BASE_URL,
     clientID: process.env.AUTH0_CLIENT_ID,
-    issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,   
+    issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,
 }));
 
 app.engine('ejs', require('ejs-mate'));
 app.set('view engine', "ejs");
 app.set("views", path.join(__dirname, "/services/views"));
 app.use(express.static(path.join(__dirname, "public")));
+
 
 app.get('/healthz', (req, res) => {
     res.status(200).json({
@@ -50,11 +52,11 @@ app.get("/", (req, res) => {
     if (req.oidc.isAuthenticated()) {
         res.redirect('/card');
     } else {
-        res.render('home',{ searchError: req.query.error || null });
+        res.render('home', { searchError: req.query.error || null });
     }
 });
 // home route 
-app.get("/home",(req,res)=>{
+app.get("/home", (req, res) => {
     res.render('home.ejs');
 })
 // card — own card if no ?username, else look up that user
@@ -63,7 +65,7 @@ app.use(require('./routes/card'));
 app.use(require('./routes/share'));
 
 app.get("/stats", async (req, res) => {
-    const totalCards = (await Counter.findOne({_id:"global"}))?.totalCards || 0;
+    const totalCards = (await Counter.findOne({ _id: "global" }))?.totalCards || 0;
     const uniqueDevelopers = await Profile.countDocuments();
     res.json({ totalCards, uniqueDevelopers });
 });
