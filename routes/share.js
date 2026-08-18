@@ -28,6 +28,7 @@ router.get("/u/:username",profileLimiter, async (req, res, next) => {
                 avatar_url: data.avatar_url,
                 bio: data.bio,
                 public_repo_count: data.public_repo_count,
+                fork_count: data.fork_count,
                 followers: data.followers,
                 following: data.following,
                 topLangs: data.topLangs,

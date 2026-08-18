@@ -22,7 +22,8 @@ const buildQuery = (login) => ({
                     }
                 }
             }
-            repositories(first: 100, ownerAffiliations: OWNER) {
+            repositories(first: 100, ownerAffiliations: OWNER, isFork: false) {
+                totalCount
                 nodes {
                     languages(first: 100, orderBy: {field: SIZE, direction: DESC}) {
                         edges {
@@ -37,11 +38,15 @@ const buildQuery = (login) => ({
     variables: { login }
 });
 
+const NON_LANG_TYPES = new Set(["CSS", "HTML", "SCSS", "Sass", "Less", "EJS", "Pug", "Handlebars"]);
+
 const parseLangs = (repoNodes) => {
     const langCount = {};
     repoNodes.forEach(repo => {
-        if (!repo.languages || !repo.languages.edges) return; repo.languages.edges.forEach(edge => {
+        if (!repo.languages || !repo.languages.edges) return;
+        repo.languages.edges.forEach(edge => {
             const lang = edge.node.name;
+            if (NON_LANG_TYPES.has(lang)) return;
             langCount[lang] = (langCount[lang] || 0) + edge.size;
         });
     });
@@ -68,8 +73,13 @@ async function fetchGitHubData(username) {
 
         const { avatar_url, bio, login, name, followers, following } = profileRes.data;
         const starsCount = [];
-        repoData.data.forEach((repo) => starsCount.push(repo.stargazers_count));
+        repoData.data.forEach((repo) => {
+            if(!repo.fork) starsCount.push(repo.stargazers_count);
+
+        });
         const totalStars = starsCount.reduce((sum, stars) => sum + stars, 0);
+        const forkCount = repoData.data.filter(r => r.fork).length;
+        console.log("FORK COUNT:", forkCount);
         const userData = graphQL.data.data.user;
 
         if (!userData) {
@@ -85,7 +95,7 @@ async function fetchGitHubData(username) {
                 level: getLevel(day.contributionCount)
             }))
         }));
-
+        console.log(JSON.stringify(topLangs));
         // best-effort counter update
         (async () => {
             try {
@@ -102,7 +112,8 @@ async function fetchGitHubData(username) {
             bio,
             followers,
             following,
-            public_repo_count: profileRes.data.public_repos,
+            public_repo_count: userData.repositories.totalCount, // from the totalCount fix, non-fork
+            fork_count: forkCount,
             topLangs,
             totalStars,
             coloredWeeks,

@@ -42,6 +42,10 @@
                     <span class="stat-val"><%= github.public_repo_count %></span>
                 </div>
                 <div class="stat-row">
+                    <span class="stat-key">forks</span>
+                    <span class="stat-val"><%= github.fork_count %></span>
+                </div>
+                <div class="stat-row">
                     <span class="stat-key">followers</span>
                     <span class="stat-val"><%= github.followers %></span>
                 </div>
@@ -58,7 +62,7 @@
                     <div class="lang-head">Top Languages</div>
                     <%
                         const maxCount = github.topLangs[0] ? github.topLangs[0][1] : 1;
-                        const rankLabels = ['PRIMARY', 'SECONDARY', 'TERTIARY','QUATERNARY'];
+                        const rankLabels = ['PRIMARY', 'SECONDARY', 'TERTIARY','QUATENARY'];
                         github.topLangs.forEach(([lang, count], i) => {
                             const pct = Math.round((count / maxCount) * 100);
                     %>

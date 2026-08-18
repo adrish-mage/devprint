@@ -15,6 +15,7 @@ function buildCardPayload({ data, loggedInUser, isOwnCard, searchError, nickname
             avatar_url: data.avatar_url,
             bio: data.bio,
             public_repo_count: data.public_repo_count,
+            fork_count: data.fork_count,
             followers: data.followers,
             following: data.following,
             topLangs: data.topLangs,
@@ -30,6 +31,7 @@ router.get("/card", requiresAuth(), async (req, res, next) => {
     const username = req.query.username || loggedInUser;
     try {
         const doc = await getGithubData(username);
+        console.log("STATS:", doc.stats);
         res.render("card", buildCardPayload({
             data: doc.stats,
             loggedInUser,
